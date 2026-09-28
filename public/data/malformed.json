@@ -1,0 +1,1 @@
+[{"timestamp":"2025-01-01","txid":"not-a-txid","fees":-1},{"timestamp":"2025-01-01T00:00:00Z","txid":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","input_addresses":[],"input_amounts":[],"output_addresses":["synthetic_bad"],"output_amounts":[0.5],"fees":0}]

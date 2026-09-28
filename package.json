@@ -1,0 +1,33 @@
+{
+  "name": "trace-ledger",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --configLoader runner",
+    "build": "tsc --noEmit && vite build --configLoader runner",
+    "test": "vitest run --configLoader runner",
+    "preview": "vite preview --host 127.0.0.1",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "cytoscape": "3.33.1",
+    "fast-xml-parser": "5.3.0",
+    "ipaddr.js": "2.2.0",
+    "papaparse": "5.5.3",
+    "react": "19.1.1",
+    "react-dom": "19.1.1",
+    "recharts": "3.1.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.55.1",
+    "@types/cytoscape": "3.21.9",
+    "@types/papaparse": "5.3.16",
+    "@types/react": "19.1.13",
+    "@types/react-dom": "19.1.9",
+    "prettier": "^3.6.2",
+    "typescript": "5.9.2",
+    "vite": "7.1.7",
+    "vitest": "3.2.4"
+  }
+}

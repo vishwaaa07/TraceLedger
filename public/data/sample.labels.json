@@ -1,0 +1,852 @@
+{
+  "2d8f4ea5e92b1b50037d0d8ad5ebcbc12d0fcc3c86013711cf7f83623b431297": {
+    "scenario": "ordinary",
+    "scenario_id": "42-0",
+    "target": 0
+  },
+  "c70c96500ebed319e3af0195b537f2258b821788e4e12181b5584a0d369415c4": {
+    "scenario": "ordinary",
+    "scenario_id": "42-0",
+    "target": 0
+  },
+  "d1081c16f18fe4cf4d074d48792f30e0a702fd3414d08c3ee7b7ab3efb941101": {
+    "scenario": "ordinary",
+    "scenario_id": "42-0",
+    "target": 0
+  },
+  "23afde747b509f953f44be666af10d869cb4ba9bf92483057239110cc36fdcb0": {
+    "scenario": "ordinary",
+    "scenario_id": "42-0",
+    "target": 0
+  },
+  "0f4e57702f49a54cf54b369fb43dea377dcaa9d4af97b9ea5886239efa53664e": {
+    "scenario": "batch",
+    "scenario_id": "42-1",
+    "target": 0
+  },
+  "5d1e07148bcfbbe2598b3eb810b7f1f70df8312bbd6b98dac9c5fdacde086ba8": {
+    "scenario": "batch",
+    "scenario_id": "42-1",
+    "target": 0
+  },
+  "b774d9ea71ac1a5247ba85dcdd555f934fd3a706bf633a176ab51cfad12ea44b": {
+    "scenario": "batch",
+    "scenario_id": "42-1",
+    "target": 0
+  },
+  "95d152cef75b85e2a68149328a95bf4d3b7b8372e6eb3b90e4bdcbcd8866f03b": {
+    "scenario": "batch",
+    "scenario_id": "42-1",
+    "target": 0
+  },
+  "66a6ee7777a0bc9603e3e720ad1beae00912a675f4dc79a78c784c52f09f3d96": {
+    "scenario": "high_value",
+    "scenario_id": "42-2",
+    "target": 0
+  },
+  "23d9c69415f0dfd73067d1ce242ef1517ca593b7dc4c7daf965199a8676f26d7": {
+    "scenario": "high_value",
+    "scenario_id": "42-2",
+    "target": 0
+  },
+  "9753500f5befad649f94d96fd147f4bc253d20a2cb63d550dd71f7c5808088f2": {
+    "scenario": "high_value",
+    "scenario_id": "42-2",
+    "target": 0
+  },
+  "d04bbec4f7048a3a68c320dc79ee0aa5b2afe3223cc784660de8491e5896aab4": {
+    "scenario": "high_value",
+    "scenario_id": "42-2",
+    "target": 0
+  },
+  "817d080ed45e2e6bda582e934016764ecc0d19bc73ac0f10a776c5699742a6fa": {
+    "scenario": "consolidation",
+    "scenario_id": "42-3",
+    "target": 0
+  },
+  "03f512cbcfefd7678b7854935f16e71c292feaaee8e59427d11245e424934d5b": {
+    "scenario": "consolidation",
+    "scenario_id": "42-3",
+    "target": 0
+  },
+  "68042bf9c5a9f09c5c8856373430c1711ab04efde0e40c0f076ac9a8f03110dc": {
+    "scenario": "consolidation",
+    "scenario_id": "42-3",
+    "target": 0
+  },
+  "b1a3b03d923d1f65d8a64673576c47251b173419a7792ede58c16c5fd0e26f17": {
+    "scenario": "consolidation",
+    "scenario_id": "42-3",
+    "target": 0
+  },
+  "b774a41b68ffe2b174f55fa00edcc7dcd959e7655b5ee87f4ae284a5a645aa6a": {
+    "scenario": "burst",
+    "scenario_id": "42-4",
+    "target": 0
+  },
+  "ac2b1831498fbbb67cd354c130fc15d92de335690db465cb69c5f288a1d9b593": {
+    "scenario": "burst",
+    "scenario_id": "42-4",
+    "target": 1
+  },
+  "d41c6181d907252d53d3b4117efa4f288439f73d004c75c3ee85be8ef51c2aff": {
+    "scenario": "burst",
+    "scenario_id": "42-4",
+    "target": 1
+  },
+  "7718ec0d8e2adeaf58bbb2a21bdf54c0841c60fcc2d27e24f01e30002aa4b66a": {
+    "scenario": "burst",
+    "scenario_id": "42-4",
+    "target": 1
+  },
+  "6afd5d3f6f6ac1e7ac15a60885eda86dcafe608d1901c5540dc22935158a3005": {
+    "scenario": "burst",
+    "scenario_id": "42-4",
+    "target": 1
+  },
+  "1ae2bbb33abfc73af60e4254306a40ce6e6eff68ca93d527cc892c22c49268fc": {
+    "scenario": "burst",
+    "scenario_id": "42-4",
+    "target": 1
+  },
+  "6e6631f5c5f90e44a077fd816608e74767582364a943bb915d39c947793b1f10": {
+    "scenario": "burst",
+    "scenario_id": "42-4",
+    "target": 1
+  },
+  "cd3874f9ca37cd86ef6d47b8d6493b57a78e7bef8057e31e08acbbd0073b236c": {
+    "scenario": "peeling",
+    "scenario_id": "42-5",
+    "target": 0
+  },
+  "fe2a3ed274c7f7acf4467baf1ec8c37b9fa5f12372adb7708acc896d0a9bf5c0": {
+    "scenario": "peeling",
+    "scenario_id": "42-5",
+    "target": 1
+  },
+  "6d31a1442b48fa52a69294749cdb3b9e5e53d51324a97c002b9a1ec87ffbbfde": {
+    "scenario": "peeling",
+    "scenario_id": "42-5",
+    "target": 1
+  },
+  "1992bf5bc1ba8e4e33db4a4e50ac91ff48072228ee9024040b43050b03f7ea78": {
+    "scenario": "peeling",
+    "scenario_id": "42-5",
+    "target": 1
+  },
+  "e43cce12855a052c328c997602b94cac3c8449846acb0a7af5f255725dcf9096": {
+    "scenario": "peeling",
+    "scenario_id": "42-5",
+    "target": 1
+  },
+  "292a95343ba36cbd7a98e14d262c232c7b5e2f8e869dd6dbfb860870f15b8ff8": {
+    "scenario": "peeling",
+    "scenario_id": "42-5",
+    "target": 1
+  },
+  "165dca0a2079f384e7330ddc1c5eb9d834d82769e8051bc69d7bfe9df75f1925": {
+    "scenario": "peeling",
+    "scenario_id": "42-5",
+    "target": 1
+  },
+  "a9baeebdaf4018380dda678301bc1a67529d129ae5875f9e2e4f0bd4be3ba106": {
+    "scenario": "coinjoin",
+    "scenario_id": "42-6",
+    "target": 0
+  },
+  "2a7d60c2b736f2f675fff1876c4e6629183142f58fd1153c01c8efbd55b9bdb6": {
+    "scenario": "coinjoin",
+    "scenario_id": "42-6",
+    "target": 0
+  },
+  "495edddc733b8a2be55899199df7b2388aea2a968b80999fa50fd0b40593acae": {
+    "scenario": "coinjoin",
+    "scenario_id": "42-6",
+    "target": 0
+  },
+  "532027c5143e9da624e208233ed138b9c4a02bf3778a2873c46561b6723f17c7": {
+    "scenario": "coinjoin",
+    "scenario_id": "42-6",
+    "target": 0
+  },
+  "0447416f564dcbc724d578d776cd7edd1f7682018fc5a0bd843e639dc2ed4652": {
+    "scenario": "ordinary",
+    "scenario_id": "42-7",
+    "target": 0
+  },
+  "153e66db4ec253a2ea1b8455881cc7d48ffd086ca14fb67d78ee65a4f35b6840": {
+    "scenario": "ordinary",
+    "scenario_id": "42-7",
+    "target": 0
+  },
+  "415eee03043249f685aae381002dd306fbc00f6caf24670669e817528a1d0ebd": {
+    "scenario": "ordinary",
+    "scenario_id": "42-7",
+    "target": 0
+  },
+  "9013cd9e08e98631e8398e6a497e28212da0e2c0efbf3111b57aab08ecbe8d1f": {
+    "scenario": "ordinary",
+    "scenario_id": "42-7",
+    "target": 0
+  },
+  "c84250403dbb70c44006d6b0e2132a85167a1f583e003a2af0bd9a6a311d32d5": {
+    "scenario": "batch",
+    "scenario_id": "42-8",
+    "target": 0
+  },
+  "8454a052e62a160d7d66d355523688007a990bda016d8d4e95d2bb3f816e8a60": {
+    "scenario": "batch",
+    "scenario_id": "42-8",
+    "target": 0
+  },
+  "210ad0f7de678b8de3b2e5fe900e8b8d3241dd42cbcb0e09513e8bba62f6acf2": {
+    "scenario": "batch",
+    "scenario_id": "42-8",
+    "target": 0
+  },
+  "36a95bb20c931cd842d942707070515f6a2de6e5cf65f3e9952261e51fe07355": {
+    "scenario": "batch",
+    "scenario_id": "42-8",
+    "target": 0
+  },
+  "31593f9ecc2f956629d37736fdacae0174009859f24e73081105ed52d080a297": {
+    "scenario": "high_value",
+    "scenario_id": "42-9",
+    "target": 0
+  },
+  "e2c903e0e281a2686769d60748cdf5b51004c8d843dcd2026ab03f5bbd89d047": {
+    "scenario": "high_value",
+    "scenario_id": "42-9",
+    "target": 0
+  },
+  "4578bf7b81f903e0288957ac5d7d041ece1681e4e9a47e90c247c14ce4843edd": {
+    "scenario": "high_value",
+    "scenario_id": "42-9",
+    "target": 0
+  },
+  "25dcb366d9de85dd8e5e2151a4398a6f6b8405a7ec06b366c8ca8d05f936a8e1": {
+    "scenario": "high_value",
+    "scenario_id": "42-9",
+    "target": 0
+  },
+  "cf1facf1869b1cb7f194b7a5dbd981a83aa9016b49b28a21c09f9ae036df9c11": {
+    "scenario": "consolidation",
+    "scenario_id": "42-10",
+    "target": 0
+  },
+  "e233e9812527083e4f641601965d2c959e8b8f0a12267fbf3a567b35281d0927": {
+    "scenario": "consolidation",
+    "scenario_id": "42-10",
+    "target": 0
+  },
+  "c4ab9ddc6b6cd7cc99b1fd2d8a56a3eaeefd85c622c16e566b5d871ea9c86318": {
+    "scenario": "consolidation",
+    "scenario_id": "42-10",
+    "target": 0
+  },
+  "b01a78a300bf8175c649d1ca3bd5af691f2e6fb44ca6dc56415c9bddca3121f2": {
+    "scenario": "consolidation",
+    "scenario_id": "42-10",
+    "target": 0
+  },
+  "959baba7c6ba94ccf84844d2a5a6ffee0236ee8d5ed23b1a78fd130ed33acac7": {
+    "scenario": "burst",
+    "scenario_id": "42-11",
+    "target": 0
+  },
+  "897dd78336c7b37d94fcbefd026680298fe3b02eb5370bdf05dd875fa2e2f1e6": {
+    "scenario": "burst",
+    "scenario_id": "42-11",
+    "target": 1
+  },
+  "655b211e9cb261fa27fa4e2d4f8e976c5d827192b8da452e1d9bc4ea86f5e59c": {
+    "scenario": "burst",
+    "scenario_id": "42-11",
+    "target": 1
+  },
+  "4935c396945ded8d76435bb8d2695fb8212b70a06f45cbcda987da5b44866157": {
+    "scenario": "burst",
+    "scenario_id": "42-11",
+    "target": 1
+  },
+  "c02b08512a11cba47cc387eda30d9c5cfce1c193a4549a64af4db1c97748dd79": {
+    "scenario": "burst",
+    "scenario_id": "42-11",
+    "target": 1
+  },
+  "6c8a4ac33a9c9b4d7762370b2080e96a046f36465636f252d582bede021aa6c0": {
+    "scenario": "burst",
+    "scenario_id": "42-11",
+    "target": 1
+  },
+  "0609be7e5b9714f18a771cb55a7f3b0eff7f805cdfbf8befac13a6c8190a2452": {
+    "scenario": "burst",
+    "scenario_id": "42-11",
+    "target": 1
+  },
+  "443c708fab23bd0c4cf21140c3576bc5c6eb2b35e4c12195f78a1d1ba2b56000": {
+    "scenario": "peeling",
+    "scenario_id": "42-12",
+    "target": 0
+  },
+  "1f964e9bace9f86c06e2d17210b197564161ee783ae47ec9de3e3de82fcee01a": {
+    "scenario": "peeling",
+    "scenario_id": "42-12",
+    "target": 1
+  },
+  "3f582c90cb8c6bc1d07ac3f77d0f25a4085be8a7d9753056d079a17eb4c10235": {
+    "scenario": "peeling",
+    "scenario_id": "42-12",
+    "target": 1
+  },
+  "3d7d0252f95f703e818e0d2c236aedd4df55446f7546c8c7d4fbfcffdda45894": {
+    "scenario": "peeling",
+    "scenario_id": "42-12",
+    "target": 1
+  },
+  "32e570f50e5fa19af0d58a3a4bedd56522a576f4b3a7caaf05b52da3f93eb11f": {
+    "scenario": "peeling",
+    "scenario_id": "42-12",
+    "target": 1
+  },
+  "6a1fb7ba5bec8eac86e17f0e82d3fe5be188d4afe9e2097fac3533cd48e9f440": {
+    "scenario": "peeling",
+    "scenario_id": "42-12",
+    "target": 1
+  },
+  "50987c50d699a8e6dda7317b4cdd45d5a35842c5c7f89954203fb50ef9cc1b97": {
+    "scenario": "peeling",
+    "scenario_id": "42-12",
+    "target": 1
+  },
+  "ffdadf0fe3385c81b5bd53efc4eb9498c8bab34283d934b00346cab9e6de0c3b": {
+    "scenario": "coinjoin",
+    "scenario_id": "42-13",
+    "target": 0
+  },
+  "a8fde42895bfa871a0f1a8371c7aceb67f9767dc9edfe13d2353fe2a95643bad": {
+    "scenario": "coinjoin",
+    "scenario_id": "42-13",
+    "target": 0
+  },
+  "c9125bf3085f9d2954e143157864fea02d01e41df99c2b29e17b189a3b6dab4d": {
+    "scenario": "coinjoin",
+    "scenario_id": "42-13",
+    "target": 0
+  },
+  "48b0e758da060b37ea839c695dcb67120d8e4c650715544676eeeb60337f37bb": {
+    "scenario": "coinjoin",
+    "scenario_id": "42-13",
+    "target": 0
+  },
+  "6f54e1983b7728c355cfc7a96ffeea1bcc74f933dfada4f3d10279c0db286cca": {
+    "scenario": "ordinary",
+    "scenario_id": "42-14",
+    "target": 0
+  },
+  "30a6946de19d3bb7cbd31a329474ffccc4096a2b15130848f42d742de2b622ad": {
+    "scenario": "ordinary",
+    "scenario_id": "42-14",
+    "target": 0
+  },
+  "276e9525a2c62fe5c78692b912db19fe05921987ce141aba487a06b9400f7634": {
+    "scenario": "ordinary",
+    "scenario_id": "42-14",
+    "target": 0
+  },
+  "3faeb568bfdf3a6e456eb4c69f3aa0958a28acce76c355bdde94a046b1d360a3": {
+    "scenario": "ordinary",
+    "scenario_id": "42-14",
+    "target": 0
+  },
+  "51d47fb8c3f418046840a1d74ad97f2f121fe1a4cdb5f37d26f03601c4049173": {
+    "scenario": "batch",
+    "scenario_id": "42-15",
+    "target": 0
+  },
+  "78b4e7cd3c97ddba4594b344b4c97347d54b63731fb6b3a04c21d8d526d3b084": {
+    "scenario": "batch",
+    "scenario_id": "42-15",
+    "target": 0
+  },
+  "58c220cd04dd5ec3528c5750c4d6e1132f9d9fe9883968bae5f452948a28f646": {
+    "scenario": "batch",
+    "scenario_id": "42-15",
+    "target": 0
+  },
+  "21d45208bde5335512953aef9b8055371e486f79e824e33b5e8d9a5f9b309be5": {
+    "scenario": "batch",
+    "scenario_id": "42-15",
+    "target": 0
+  },
+  "b2ead48a161fdaf4b72886940472d45dcb06b4250e72522f45e0809c437c91c7": {
+    "scenario": "high_value",
+    "scenario_id": "42-16",
+    "target": 0
+  },
+  "1b3f63a9f1c646bf7e1ada4433ebde07901cd53ade23e7d431c7d4d2aa436ebc": {
+    "scenario": "high_value",
+    "scenario_id": "42-16",
+    "target": 0
+  },
+  "5ecf0913ca96cf559cc45581bc801d702e8f761cce063b6b3ac54c02140b4754": {
+    "scenario": "high_value",
+    "scenario_id": "42-16",
+    "target": 0
+  },
+  "4f659fd4ce4ca181b94d43d855e0c7217702dbe90ed6f9d273da76f2c76b7bd9": {
+    "scenario": "high_value",
+    "scenario_id": "42-16",
+    "target": 0
+  },
+  "c23d22c87483962a9e807bcc0c227d45ad45c7601532b90afcbf7ee9ec48e7f4": {
+    "scenario": "consolidation",
+    "scenario_id": "42-17",
+    "target": 0
+  },
+  "d6ee719a87acf7345eb8deb1f6beddeddc799e0de5fbcde11bfbdcd1a0be8b95": {
+    "scenario": "consolidation",
+    "scenario_id": "42-17",
+    "target": 0
+  },
+  "809db1a2bd25519ca073fc9da19472e4b6e024a93987892265cd17fbb6045a79": {
+    "scenario": "consolidation",
+    "scenario_id": "42-17",
+    "target": 0
+  },
+  "d3b8d30c21c7edb4302b940ced40d2d1493a3efd76fada2202e41c3a4321e33b": {
+    "scenario": "consolidation",
+    "scenario_id": "42-17",
+    "target": 0
+  },
+  "62d9877725ef2251931d40e495b5b5fe5896ff02cc12fc13dfeddf8c21a7a090": {
+    "scenario": "burst",
+    "scenario_id": "42-18",
+    "target": 0
+  },
+  "14e25909f21c4a673183ae0839c8aef0255ac666c6343372805c63b2c9fa053c": {
+    "scenario": "burst",
+    "scenario_id": "42-18",
+    "target": 1
+  },
+  "fe75cfbfab470aa5d54f07a60c7e9cb25b04b22cd0411f7d86e26593a7d3c417": {
+    "scenario": "burst",
+    "scenario_id": "42-18",
+    "target": 1
+  },
+  "a2ba3a8e354d893f417312573efcbf2bcfb16e7b2880b8ab8bd556f61423046c": {
+    "scenario": "burst",
+    "scenario_id": "42-18",
+    "target": 1
+  },
+  "64d0c8461d2a08e9996fa27b895aab360273891e459744f094b5159a5b834b16": {
+    "scenario": "burst",
+    "scenario_id": "42-18",
+    "target": 1
+  },
+  "4fedb9cc215850b1f89a7ee3bf4fb06ff059e12aa440efa811ce8734b6689a31": {
+    "scenario": "burst",
+    "scenario_id": "42-18",
+    "target": 1
+  },
+  "63108e9b5c6d6d25b9cf73189b02b891912aa70c354d14c2ca500d8a576c4b9c": {
+    "scenario": "burst",
+    "scenario_id": "42-18",
+    "target": 1
+  },
+  "6b16d863a7ca2edaca322dba388e920ae28ed971a6e16808ba5c1d16a966780a": {
+    "scenario": "peeling",
+    "scenario_id": "42-19",
+    "target": 0
+  },
+  "250ebf540cafb077a9ddc6b0450a488160afc9f7bb2ceb226181b240f5340593": {
+    "scenario": "peeling",
+    "scenario_id": "42-19",
+    "target": 1
+  },
+  "758df3c87bf2fe9014efd592488285483dd16c903c166e93226c157ab2f77bc5": {
+    "scenario": "peeling",
+    "scenario_id": "42-19",
+    "target": 1
+  },
+  "eadeea496f9c3462de33bb014c2f133429fdbf88ffcb9a5de71ebb0f3696d93b": {
+    "scenario": "peeling",
+    "scenario_id": "42-19",
+    "target": 1
+  },
+  "4e1b6f06fe844d3d4a8ee22de309f8c25d0634085916cf4d0181c1d5fb58e4e6": {
+    "scenario": "peeling",
+    "scenario_id": "42-19",
+    "target": 1
+  },
+  "c8bdb40d16a32684279bc05a8236983f92ed78058d06bbc265e215c2fa137bf8": {
+    "scenario": "peeling",
+    "scenario_id": "42-19",
+    "target": 1
+  },
+  "25366940dc82b541729737d2e7f1484e776e4843c8c1607723673bacdb67b978": {
+    "scenario": "peeling",
+    "scenario_id": "42-19",
+    "target": 1
+  },
+  "ff9dcc24ba96b14224c594391ef1ef7bb234e0276a3d587bc2b37d53f73b7d2e": {
+    "scenario": "coinjoin",
+    "scenario_id": "42-20",
+    "target": 0
+  },
+  "4e08d3d3663d39456abc4a89bddc563eb94c5dec07380f299be2435c1679e17c": {
+    "scenario": "coinjoin",
+    "scenario_id": "42-20",
+    "target": 0
+  },
+  "15750f08c3f6a0ba183383fd852b5ff9c393afd2c46d3a2def3ff2a54c7d670c": {
+    "scenario": "coinjoin",
+    "scenario_id": "42-20",
+    "target": 0
+  },
+  "c5a2fd1acb27becab3b2b983fa1461ffefaa81c16ec4337a2c7c9843deb6ae21": {
+    "scenario": "coinjoin",
+    "scenario_id": "42-20",
+    "target": 0
+  },
+  "c5705bcfabf1553bf5bb04d839ea06c27785ff59da3adc88f64c321195c1c7cf": {
+    "scenario": "ordinary",
+    "scenario_id": "42-21",
+    "target": 0
+  },
+  "e6ac437f5435fd719314d6ad31a578278373deddefdbbaeea3e7d4114237a91d": {
+    "scenario": "ordinary",
+    "scenario_id": "42-21",
+    "target": 0
+  },
+  "f1d71102ac018a28f5ce4772b769be43d8bca5dfa89f61f06810610b00411a18": {
+    "scenario": "ordinary",
+    "scenario_id": "42-21",
+    "target": 0
+  },
+  "4584469f0b3efdb20899faa261f8983682de78f32bcdd5cc8ca76d563872b779": {
+    "scenario": "ordinary",
+    "scenario_id": "42-21",
+    "target": 0
+  },
+  "d40ea43c6435a2291804c4ac4b9ebc74067847bea9c8e45804eb62e17cb60bfd": {
+    "scenario": "batch",
+    "scenario_id": "42-22",
+    "target": 0
+  },
+  "6ef51755eb545a0cafe26665c10ac527de159ca028202708fd3a2adf3b9c48cd": {
+    "scenario": "batch",
+    "scenario_id": "42-22",
+    "target": 0
+  },
+  "f71f76744333bf3a01375e976e13a559e54bcb96e50b5a1b34f7e2550e671525": {
+    "scenario": "batch",
+    "scenario_id": "42-22",
+    "target": 0
+  },
+  "b6fa634ec870e185166ea1440410b48e88703682413ea50945797f5ff4f2cdaa": {
+    "scenario": "batch",
+    "scenario_id": "42-22",
+    "target": 0
+  },
+  "7fc9c998e67f6c2819c5b4e7302e1e517569bf80e85b7287c950d6c669478556": {
+    "scenario": "high_value",
+    "scenario_id": "42-23",
+    "target": 0
+  },
+  "ab5a0af635ae27fb40444665a06dd2e1463d6818e706d958a2179e55dca55957": {
+    "scenario": "high_value",
+    "scenario_id": "42-23",
+    "target": 0
+  },
+  "4f28933e400af90872e53001b7a58ff40592fde1d03eb0a2c69993c3801491ef": {
+    "scenario": "high_value",
+    "scenario_id": "42-23",
+    "target": 0
+  },
+  "9b37bc05b7895dc09244b430dd56cf2befa58e261dfb8a0defdb260396a558e7": {
+    "scenario": "high_value",
+    "scenario_id": "42-23",
+    "target": 0
+  },
+  "c9fa4fbcd703f472eb491b4ecf37fc475072954dd112ad2bb4b6a76b22d18e81": {
+    "scenario": "consolidation",
+    "scenario_id": "42-24",
+    "target": 0
+  },
+  "476c200d96c563cc8de4ed9aee16c7707a3661ba6b7dedd6c5aaa0eb417bcfc4": {
+    "scenario": "consolidation",
+    "scenario_id": "42-24",
+    "target": 0
+  },
+  "beb8bed0a1aa8866593b3288c3365525007bc785f3c77bcf29f1f35c4c072efe": {
+    "scenario": "consolidation",
+    "scenario_id": "42-24",
+    "target": 0
+  },
+  "57b9ecd54f5bdc6c2edab8bdff0db3c1b18c366c79b4bd34818357be62825f34": {
+    "scenario": "consolidation",
+    "scenario_id": "42-24",
+    "target": 0
+  },
+  "d8fd799ebc08c5d6d08d6863c4dcf2c21c970c9293bf417838cfb8300433f685": {
+    "scenario": "burst",
+    "scenario_id": "42-25",
+    "target": 0
+  },
+  "838bded29f142210ecd1ef076ae6b20e2affb21440be8e03d7bfb8db1c6a8595": {
+    "scenario": "burst",
+    "scenario_id": "42-25",
+    "target": 1
+  },
+  "702baa934390132cad6f5e96fc9a78e753cc93ef50312342236b29661f726527": {
+    "scenario": "burst",
+    "scenario_id": "42-25",
+    "target": 1
+  },
+  "f73cb838c6e44636b96549b3a2a6f6edaa4518b63ddc1ae60ca6a1210ce31a59": {
+    "scenario": "burst",
+    "scenario_id": "42-25",
+    "target": 1
+  },
+  "ec700835452740e0fb34b88d131121628e013380d745d1b55c0600791aeab5fe": {
+    "scenario": "burst",
+    "scenario_id": "42-25",
+    "target": 1
+  },
+  "483522ca6c3af9ecbc71b1cea63b9a9fd3bcdebcc299ac9aacf70274695c77a4": {
+    "scenario": "burst",
+    "scenario_id": "42-25",
+    "target": 1
+  },
+  "d8e60f90aced05ab447446cd79d4cd7e9bb83db0187ed9c0683d62c59348ceef": {
+    "scenario": "burst",
+    "scenario_id": "42-25",
+    "target": 1
+  },
+  "8d7d1bbf7ba08bd6dd8767cce919f6dfd92818b744510fcbf77c24b5a17d87c9": {
+    "scenario": "peeling",
+    "scenario_id": "42-26",
+    "target": 0
+  },
+  "fe1f71fa8cc7cefa15876496ad1daa2adeb11c817457ee3b6c2de7ef1100d6bf": {
+    "scenario": "peeling",
+    "scenario_id": "42-26",
+    "target": 1
+  },
+  "22f4ab3872fb06dca91c6a3ea395944dd26ca6c58587ca0355d25a123e260871": {
+    "scenario": "peeling",
+    "scenario_id": "42-26",
+    "target": 1
+  },
+  "9510420e6d6321eefaf5b90d404026ff9f5e89bdfccce73fc40e8878d32dc616": {
+    "scenario": "peeling",
+    "scenario_id": "42-26",
+    "target": 1
+  },
+  "f054a4e8c557d7d01f5d79c873e83b9ba488b5846a31b4c77fd1ba7e84db577c": {
+    "scenario": "peeling",
+    "scenario_id": "42-26",
+    "target": 1
+  },
+  "c81d17afb400e2e078aa881707ed9865c2b107a4520d795ceea1e49611adc779": {
+    "scenario": "peeling",
+    "scenario_id": "42-26",
+    "target": 1
+  },
+  "ab86e19288481fd205f8c9887076c1e653faffa3c941126e5ef9719bc931869f": {
+    "scenario": "peeling",
+    "scenario_id": "42-26",
+    "target": 1
+  },
+  "745cfa9c7bc119bf9a4d846a709a9efb5594f655a5656d744fa8c7bf6b1bd7b3": {
+    "scenario": "coinjoin",
+    "scenario_id": "42-27",
+    "target": 0
+  },
+  "17362c756f6d367b7668cce2b834470ef6dd0df6c6eb9300cbdbd13c114f063c": {
+    "scenario": "coinjoin",
+    "scenario_id": "42-27",
+    "target": 0
+  },
+  "626746d935cb269e00a3b792c74a89f46cc5b16218a425518e62573059694c91": {
+    "scenario": "coinjoin",
+    "scenario_id": "42-27",
+    "target": 0
+  },
+  "d9c4f14b845c9d83154944a03e52e5dafe2bd190dc8a9613ac4976525c916277": {
+    "scenario": "coinjoin",
+    "scenario_id": "42-27",
+    "target": 0
+  },
+  "a76bfb80e42f27803a2a132fc1bc221c9a169ef840bb1bbeb00f638ba5d6accf": {
+    "scenario": "ordinary",
+    "scenario_id": "42-28",
+    "target": 0
+  },
+  "2a738ef4ece094f569679f5e73e63d5f89de958fc88cf24c9ed33535a6b8b6b5": {
+    "scenario": "ordinary",
+    "scenario_id": "42-28",
+    "target": 0
+  },
+  "3e299dd76ca99c28218af0de4feda0e1e03cba337dd51db095200a57137e947e": {
+    "scenario": "ordinary",
+    "scenario_id": "42-28",
+    "target": 0
+  },
+  "587286a0bae9a2c5dc747d748920f7a7cfc0ba7facd9980a3c88fe88317c7670": {
+    "scenario": "ordinary",
+    "scenario_id": "42-28",
+    "target": 0
+  },
+  "1eea31750a139a535e2679a567cc39dd84e77c76a0099a6eb700f78860d15416": {
+    "scenario": "batch",
+    "scenario_id": "42-29",
+    "target": 0
+  },
+  "773f84a2f79892a4482629a2e42fdb8d5fd5189d7ad6ea939a48075d4dde8fd2": {
+    "scenario": "batch",
+    "scenario_id": "42-29",
+    "target": 0
+  },
+  "25d65416894535aad79521afa4a7bd8f406d44424fd90206cdf4ef899cee3b3e": {
+    "scenario": "batch",
+    "scenario_id": "42-29",
+    "target": 0
+  },
+  "96a7288995fd3ececfc0fcb148247580922c22390a1a3cc197a082307fb312ff": {
+    "scenario": "batch",
+    "scenario_id": "42-29",
+    "target": 0
+  },
+  "a26239f75b18d4d2dc20dbf2dcaa79f501a4a02a422cb412519e8c66e039b201": {
+    "scenario": "high_value",
+    "scenario_id": "42-30",
+    "target": 0
+  },
+  "ee96a2b59c68994b7ceafad6788edc42b0c418c2fe58c6891d47d3cfe4218fa4": {
+    "scenario": "high_value",
+    "scenario_id": "42-30",
+    "target": 0
+  },
+  "ec0222d85d62b98e1913362099332a1c30a6d1cf85600fccf785bafd8015da95": {
+    "scenario": "high_value",
+    "scenario_id": "42-30",
+    "target": 0
+  },
+  "9498cf5505d046d0fd4fdb8d014e70ea21b9aac5341ba141600c206ccabda96e": {
+    "scenario": "high_value",
+    "scenario_id": "42-30",
+    "target": 0
+  },
+  "dcd238f8269da25debcd69977b5c445aa04579aef29fb836ed8adb244280acd5": {
+    "scenario": "consolidation",
+    "scenario_id": "42-31",
+    "target": 0
+  },
+  "29618d8a47796bc91a0408b48b86033091764194cb7a38d6dc1ffc8fcff596ff": {
+    "scenario": "consolidation",
+    "scenario_id": "42-31",
+    "target": 0
+  },
+  "292ad448d7c0e98e996e21fad2f7b5e842c92624d71b689feecdf51369090d21": {
+    "scenario": "consolidation",
+    "scenario_id": "42-31",
+    "target": 0
+  },
+  "981bb97e26f5628d8514f4ddc9597a09fffc519846644174e389a2012223192d": {
+    "scenario": "consolidation",
+    "scenario_id": "42-31",
+    "target": 0
+  },
+  "e23126a03ddc9f0f54e9869b4bc148c711fbc92aeaea445faf7d41640688e37c": {
+    "scenario": "burst",
+    "scenario_id": "42-32",
+    "target": 0
+  },
+  "2bdd54a5182d17b874db2eb36e61fc1a41c23283357bdb222580dfda26293025": {
+    "scenario": "burst",
+    "scenario_id": "42-32",
+    "target": 1
+  },
+  "24637a812fa95c29db9a25a6ab7976de962bd8a1cd5b32daedc9ba90ffc3a4fa": {
+    "scenario": "burst",
+    "scenario_id": "42-32",
+    "target": 1
+  },
+  "1984c45b14fd170eb6bf12854cf5c30990dc9d0e6a09f8288708d8c19662a0ed": {
+    "scenario": "burst",
+    "scenario_id": "42-32",
+    "target": 1
+  },
+  "cbfafb0567011bc22ea96091cf1f27218ef765dd48c97b9bcc62832bb2628a62": {
+    "scenario": "burst",
+    "scenario_id": "42-32",
+    "target": 1
+  },
+  "4c7a6f48d9356a24871ce63338f4eb5a21d918e609f38cb560df024a4fdd226f": {
+    "scenario": "burst",
+    "scenario_id": "42-32",
+    "target": 1
+  },
+  "8d0ad23b125bfdaa3b2674fec5238d5e131c1b920f197e6e9830963d56b3fb22": {
+    "scenario": "burst",
+    "scenario_id": "42-32",
+    "target": 1
+  },
+  "a08d02046d7ff98933f3e95a3980899596538ab3b1b1ece5b91d43c437122030": {
+    "scenario": "peeling",
+    "scenario_id": "42-33",
+    "target": 0
+  },
+  "b48f4659e8daf29a004da70327ce7c1a3edc231d38c451168ec655a5049af264": {
+    "scenario": "peeling",
+    "scenario_id": "42-33",
+    "target": 1
+  },
+  "22ab61ae3c78e3bbe4a8c257ca2f93bec20197e7310760efe35a5e6cf4d9d796": {
+    "scenario": "peeling",
+    "scenario_id": "42-33",
+    "target": 1
+  },
+  "e0c67160e3278e85b573eea70e88d5f8c9936fd8d066da44307b8d1295aa8605": {
+    "scenario": "peeling",
+    "scenario_id": "42-33",
+    "target": 1
+  },
+  "07df008c8dbe2ae72de7eda12e76d9e7271280c7c1f2a0093c8fb9a1bf19abd2": {
+    "scenario": "peeling",
+    "scenario_id": "42-33",
+    "target": 1
+  },
+  "e5aae3538c0453d0d24c4d7e1cfe6147926c2dd5c3af0291b684a4574098abf3": {
+    "scenario": "peeling",
+    "scenario_id": "42-33",
+    "target": 1
+  },
+  "8db22cf484b3e7eec8e12aeac4e93d08fa824cba6f7f71bac6cbbdff65b1940a": {
+    "scenario": "peeling",
+    "scenario_id": "42-33",
+    "target": 1
+  },
+  "4926933a107da353c0c6ca020b6fae8ec17d4572900e601d8390f2c3867f2acb": {
+    "scenario": "coinjoin",
+    "scenario_id": "42-34",
+    "target": 0
+  },
+  "68b83bee8c3cd3b30214a524da6eff87cfb7bf8b92e35fb9b9d89a0c5610b880": {
+    "scenario": "coinjoin",
+    "scenario_id": "42-34",
+    "target": 0
+  },
+  "982f1812e030c93172cca235aab2ae0c5ee6c057caa439d849f37e36ffea48d5": {
+    "scenario": "coinjoin",
+    "scenario_id": "42-34",
+    "target": 0
+  },
+  "3fa65ffa9d31a879791520c166cdcb2736a4e2fd833c8e035bac3d3bf87ca8cf": {
+    "scenario": "coinjoin",
+    "scenario_id": "42-34",
+    "target": 0
+  }
+}

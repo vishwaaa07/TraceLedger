@@ -1,0 +1,14 @@
+{
+  "order": [
+    "log_output_sats",
+    "input_count",
+    "output_count",
+    "log_fee_sats",
+    "largest_output_share",
+    "output_cv",
+    "prior_address_1h",
+    "prior_parent_count"
+  ],
+  "timestamp": "transaction timestamp, strictly prior only; equal times excluded",
+  "missing": "fee missing uses log1p(0) and evidence warning; prior count only explicit validated references"
+}

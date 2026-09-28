@@ -1,0 +1,24 @@
+# Dependencies and environments
+node_modules/
+.venv/
+__pycache__/
+*.pyc
+
+# Build and local test output
+dist/
+test-results/
+playwright-report/
+docs/screenshots/
+docs/browser-results.json
+docs/offline-browser-evidence.json
+generated/
+
+# Local secrets and tooling
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.netlify/
+.DS_Store
+Thumbs.db

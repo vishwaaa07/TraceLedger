@@ -1,0 +1,46 @@
+{
+  "environment": {
+    "node": "v24.19.0",
+    "os": "Windows_NT",
+    "cpu": "AMD Ryzen 5 PRO 8540U w/ Radeon 740M Graphics  "
+  },
+  "method": "One sequential run per format, same seed 884 / 2500 complete scenarios. Memory is a post-run snapshot, not peak. Node measurements exclude browser transfer/rendering. Matching transaction scores verified across all formats.",
+  "results": [
+    {
+      "format": "json",
+      "bytes": 28439357,
+      "records": 23227,
+      "transactions": 12142,
+      "observations": 22117,
+      "rejected": 0,
+      "ingestMs": 797.0396,
+      "analysisMs": 5165.496,
+      "totalMs": 5962.5356,
+      "heapUsedAfter": 216931808
+    },
+    {
+      "format": "csv",
+      "bytes": 22594370,
+      "records": 23227,
+      "transactions": 12142,
+      "observations": 22117,
+      "rejected": 0,
+      "ingestMs": 1419.6314000000002,
+      "analysisMs": 6176.4598,
+      "totalMs": 7596.0912,
+      "heapUsedAfter": 408865488
+    },
+    {
+      "format": "xml",
+      "bytes": 33974756,
+      "records": 23227,
+      "transactions": 12142,
+      "observations": 22117,
+      "rejected": 0,
+      "ingestMs": 3154.164600000002,
+      "analysisMs": 5201.446,
+      "totalMs": 8355.610600000002,
+      "heapUsedAfter": 291032240
+    }
+  ]
+}
