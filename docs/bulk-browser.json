@@ -1,6 +1,6 @@
 {
   "browser": "153.0.8010.53",
-  "elapsedMs": 10211,
-  "fixtureBytes": 28439357,
+  "elapsedMs": 14712,
+  "fixtureBytes": 71115668,
   "workflow": "upload, preview, validation, actual worker scoring, analyst table rendering"
 }

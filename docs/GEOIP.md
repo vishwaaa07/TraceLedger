@@ -1,39 +1,15 @@
-# Local Geo-IP adapter
+# Offline Geo-IP databases
 
-The app accepts a documented, provider-neutral JSON lookup table. It performs IPv4 **and IPv6** longest-prefix matching with bundled ipaddr.js. Unknown/absent matches display **Geo-IP unavailable**. This is local enrichment, not a remote API. The lookup field in Investigations can inspect any observed IP. Dataset-supplied country/ASN stays separately marked `supplied, unverified` or `simulated` in evidence records.
+Open **Investigations → Local Geo-IP database → Load bundled Geo-IP databases**. The worker loads local gzip files, verifies SHA-256 against the manifest, indexes ranges and looks up an entered IP or the loaded case's peer addresses. Results also appear for looked-up IPs in Graph explorer. Export Geo-IP evidence to retain database provenance with results.
 
-Format (example uses documentation-only addresses and simulated data):
+The bundle includes DB-IP Lite September 2026 country (717,170 ranges) and ASN (473,272 ranges), for IPv4 and IPv6. Source: https://db-ip.com/db/lite.php . Attribution: [IP Geolocation by DB-IP](https://db-ip.com). Licence: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Provider gzip files are unmodified; indexing happens locally. public/geo/manifest.json records source URLs, release, size and SHA-256. Country and ASN are independent range tables. No city or person identification is provided.
 
-```json
-[
-  {
-    "cidr": "192.0.2.0/24",
-    "country": "ZZ",
-    "asn": 64512,
-    "source": "Synthetic demonstration; not a real lookup",
-    "license": "Synthetic example, freely reusable",
-    "updated": "2025-01-01"
-  },
-  {
-    "cidr": "2001:db8::/32",
-    "country": "ZZ",
-    "asn": 64512,
-    "source": "Synthetic demonstration; not a real lookup",
-    "license": "Synthetic example, freely reusable",
-    "updated": "2025-01-01"
-  }
-]
-```
+## Updates
 
-Fields: valid CIDR; two uppercase country letters; nonnegative integer ASN; nonempty source, license and updated. Import at most 20 MiB and 100,000 prefixes. `ZZ` is a simulated/unknown marker, never a real country lookup. No example table is automatically applied.
+On an internet-connected preparation computer, run `python pipeline/update_geo.py --release YYYY-MM`, then `npm run build`. Copy the new distribution to the offline computer. The UI reads the manifest, so updates do not require code changes. Keep DB-IP attribution visible and retain the licence/provenance when redistributing. The free databases have reduced coverage and accuracy.
 
-## Source, licence, import and update
+Alternatively expand **Update or import a database**, choose Country or ASN, enter the actual release month and import the provider CSV or CSV.gz. Country CSV columns: first IP, last IP, country code. ASN CSV columns: first IP, last IP, ASN, organisation. CSV quoting is supported; ranges must not overlap within a table. The existing custom JSON CIDR format is still accepted: an array of {cidr,country,asn,source,license,updated}. Custom results carry supplied provenance and are not DB-IP assertions.
 
-You may use an internally licensed table in this format without downloading anything from the app. For a downloadable provider, [MaxMind GeoLite](https://dev.maxmind.com/geoip/geolite2-free-geolocation-data/) offers country and ASN databases; acquisition can require an account/license key and is subject to its [current EULA](https://www.maxmind.com/en/geolite/eula). These are **optional preparation-time** requirements, not runtime application dependencies. No MaxMind data, credentials or licence grant is bundled. Review redistribution terms before sharing any converted table.
+Geo files are limited to 100 MiB compressed/input and 100 MiB after decompression, with at most two million range records per table. Binary search handles range lookup. Parsing and indexing run in a separate worker; Clear / cancel terminates it. Updates remain session-local. Case exports do not embed entire databases; the separate Geo-IP evidence export records database metadata, hashes and results. Keep original observation geography distinct from local enrichment.
 
-1. Acquire country/ASN data under your organisation's licence on an online preparation machine. Follow the provider's [download/update instructions](https://support.maxmind.com/knowledge-base/articles/download-and-update-maxmind-databases).
-2. Convert the relevant prefixes to the JSON schema above, retaining source/version/licence date. If country and ASN prefix boundaries differ, intersect the ranges during your data preparation. Do not merely join on identical CIDR strings or invent unmatched attributes. This prototype provides the local-format adapter, **not an MMDB/MaxMind converter**.
-3. Transfer that local file to the offline workstation, open Investigations → Local Geo-IP enrichment → import it, and query an observed IP. Inspect the displayed source and update date.
-4. Refresh via a newly licensed export and re-import. No background update or network download occurs. Geo tables are held in session memory and must be re-imported after reload; they are not included in saved cases.
-
-IP geolocation is approximate and may reflect infrastructure, VPNs, relays, NAT or stale allocation. It does not identify a person, originator or wallet owner. Validate unknown values and disclose provider coverage before using enrichment in reporting.
+Missing matches, private addresses and documentation ranges display unavailable. The synthetic sample deliberately uses documentation addresses: it must not acquire fabricated countries from the real database. Test 8.8.8.8 for a public lookup; no request is sent to that address. Location is approximate and does not establish ownership or origin.

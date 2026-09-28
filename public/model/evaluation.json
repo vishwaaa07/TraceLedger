@@ -1,5 +1,5 @@
 {
-  "model_version": "iforest-1.0.0",
+  "model_version": "iforest-2.0.0",
   "environment": {
     "python": "3.14.6",
     "sklearn": "1.7.2",
@@ -7,44 +7,278 @@
   },
   "datasets": {
     "training": {
-      "records": 1916,
-      "transactions": 1020,
-      "seed": 1201
+      "records": 16338,
+      "transactions": 8541,
+      "seed": 81201,
+      "normal": 5339,
+      "targets": 3202
+    },
+    "development": {
+      "records": 4842,
+      "transactions": 2543,
+      "seed": 82402,
+      "normal": 1566,
+      "targets": 977
     },
     "calibration": {
-      "records": 954,
-      "transactions": 510,
-      "seed": 2402
+      "records": 4848,
+      "transactions": 2557,
+      "seed": 83603,
+      "normal": 1596,
+      "targets": 961
     },
     "evaluation": {
-      "records": 967,
-      "transactions": 510,
-      "seed": 3603
+      "records": 6516,
+      "transactions": 3403,
+      "seed": 84804,
+      "normal": 2107,
+      "targets": 1296
     },
     "sample": {
-      "records": 306,
-      "transactions": 170,
-      "seed": 42
+      "records": 3172,
+      "transactions": 1668,
+      "seed": 8542,
+      "normal": 1036,
+      "targets": 632
     }
   },
-  "label_definition": "burst or peeling scenario non-funding transaction; synthetic structural scenarios, not criminality",
+  "label_definition": "burst or peeling non-funding transactions; synthetic patterns, not crime",
+  "selection": "Two predeclared representations selected by development F2 under <=10% FPR. Evaluation and stress seeds excluded from fitting and selection.",
+  "selected_representation": "context",
+  "development_candidates": {
+    "context": {
+      "threshold": 0.5606097225400263,
+      "precision": 0.8329741379310345,
+      "recall": 0.7911975435005117,
+      "precision_at_k": 0.8976377952755905,
+      "k": 127,
+      "false_positives": 155,
+      "predicted_positive": 928,
+      "true_positives": 773,
+      "false_negatives": 204,
+      "true_negatives": 1411,
+      "false_positive_rate": 0.09897828863346105
+    },
+    "context_graph": {
+      "threshold": 0.5511007742766245,
+      "precision": 0.8228571428571428,
+      "recall": 0.736949846468782,
+      "precision_at_k": 0.8582677165354331,
+      "k": 127,
+      "false_positives": 155,
+      "predicted_positive": 875,
+      "true_positives": 720,
+      "false_negatives": 257,
+      "true_negatives": 1411,
+      "false_positive_rate": 0.09897828863346105
+    }
+  },
   "isolation_forest": {
-    "threshold": 0.6126200911900463,
-    "precision": 0.1,
-    "recall": 0.005555555555555556,
-    "precision_at_k": 0.38461538461538464,
-    "k": 26,
-    "false_positives": 9,
-    "predicted_positive": 10
+    "threshold": 0.5606097225400263,
+    "precision": 0.8362139917695474,
+    "recall": 0.7839506172839507,
+    "precision_at_k": 0.9117647058823529,
+    "k": 170,
+    "false_positives": 199,
+    "predicted_positive": 1215,
+    "true_positives": 1016,
+    "false_negatives": 280,
+    "true_negatives": 1908,
+    "false_positive_rate": 0.09444708115804461
   },
   "rule_baseline": {
     "threshold": 0.5,
-    "precision": 0.5,
-    "recall": 0.75,
-    "precision_at_k": 0.38461538461538464,
-    "k": 26,
-    "false_positives": 135,
-    "predicted_positive": 270
+    "precision": 0.5012315270935961,
+    "recall": 0.6280864197530864,
+    "precision_at_k": 0.5352941176470588,
+    "k": 170,
+    "false_positives": 810,
+    "predicted_positive": 1624,
+    "true_positives": 814,
+    "false_negatives": 482,
+    "true_negatives": 1297,
+    "false_positive_rate": 0.3844328429046037
   },
-  "training_and_generation_seconds": 1.0725213999394327
+  "legacy_features_new_data": {
+    "threshold": 0.623455097670484,
+    "precision": 0.40229885057471265,
+    "recall": 0.05401234567901234,
+    "precision_at_k": 0.4,
+    "k": 170,
+    "false_positives": 104,
+    "predicted_positive": 174,
+    "true_positives": 70,
+    "false_negatives": 1226,
+    "true_negatives": 2003,
+    "false_positive_rate": 0.04935927859515899
+  },
+  "embedding_ablation": {
+    "context": {
+      "threshold": 0.5606097225400263,
+      "precision": 0.8362139917695474,
+      "recall": 0.7839506172839507,
+      "precision_at_k": 0.9117647058823529,
+      "k": 170,
+      "false_positives": 199,
+      "predicted_positive": 1215,
+      "true_positives": 1016,
+      "false_negatives": 280,
+      "true_negatives": 1908,
+      "false_positive_rate": 0.09444708115804461
+    },
+    "context_graph": {
+      "threshold": 0.5511007742766245,
+      "precision": 0.8345008756567426,
+      "recall": 0.7353395061728395,
+      "precision_at_k": 0.8411764705882353,
+      "k": 170,
+      "false_positives": 189,
+      "predicted_positive": 1142,
+      "true_positives": 953,
+      "false_negatives": 343,
+      "true_negatives": 1918,
+      "false_positive_rate": 0.08970099667774087
+    }
+  },
+  "stress_seeds": [
+    {
+      "seed": 85905,
+      "transactions": 1291,
+      "threshold": 0.5606097225400263,
+      "precision": 0.8245614035087719,
+      "recall": 0.7720739219712526,
+      "precision_at_k": 0.9076923076923077,
+      "k": 65,
+      "false_positives": 80,
+      "predicted_positive": 456,
+      "true_positives": 376,
+      "false_negatives": 111,
+      "true_negatives": 724,
+      "false_positive_rate": 0.09950248756218906
+    },
+    {
+      "seed": 86006,
+      "transactions": 1308,
+      "threshold": 0.5606097225400263,
+      "precision": 0.8257080610021786,
+      "recall": 0.791231732776618,
+      "precision_at_k": 0.9076923076923077,
+      "k": 65,
+      "false_positives": 80,
+      "predicted_positive": 459,
+      "true_positives": 379,
+      "false_negatives": 100,
+      "true_negatives": 749,
+      "false_positive_rate": 0.09650180940892641
+    },
+    {
+      "seed": 87107,
+      "transactions": 1263,
+      "threshold": 0.5606097225400263,
+      "precision": 0.8502304147465438,
+      "recall": 0.7719665271966527,
+      "precision_at_k": 0.9206349206349206,
+      "k": 63,
+      "false_positives": 65,
+      "predicted_positive": 434,
+      "true_positives": 369,
+      "false_negatives": 109,
+      "true_negatives": 720,
+      "false_positive_rate": 0.08280254777070063
+    }
+  ],
+  "by_scenario": {
+    "batch": {
+      "threshold": 0.5606097225400263,
+      "precision": 0.0,
+      "recall": 0.0,
+      "precision_at_k": 0.0,
+      "k": 19,
+      "false_positives": 26,
+      "predicted_positive": 26,
+      "true_positives": 0,
+      "false_negatives": 0,
+      "true_negatives": 354,
+      "false_positive_rate": 0.06842105263157895
+    },
+    "burst": {
+      "threshold": 0.5606097225400263,
+      "precision": 1.0,
+      "recall": 0.810126582278481,
+      "precision_at_k": 1.0,
+      "k": 36,
+      "false_positives": 0,
+      "predicted_positive": 512,
+      "true_positives": 512,
+      "false_negatives": 120,
+      "true_negatives": 80,
+      "false_positive_rate": 0.0
+    },
+    "coinjoin": {
+      "threshold": 0.5606097225400263,
+      "precision": 0.0,
+      "recall": 0.0,
+      "precision_at_k": 0.0,
+      "k": 20,
+      "false_positives": 41,
+      "predicted_positive": 41,
+      "true_positives": 0,
+      "false_negatives": 0,
+      "true_negatives": 349,
+      "false_positive_rate": 0.10512820512820513
+    },
+    "consolidation": {
+      "threshold": 0.5606097225400263,
+      "precision": 0.0,
+      "recall": 0.0,
+      "precision_at_k": 0.0,
+      "k": 19,
+      "false_positives": 101,
+      "predicted_positive": 101,
+      "true_positives": 0,
+      "false_negatives": 0,
+      "true_negatives": 274,
+      "false_positive_rate": 0.2693333333333333
+    },
+    "high_value": {
+      "threshold": 0.5606097225400263,
+      "precision": 0.0,
+      "recall": 0.0,
+      "precision_at_k": 0.0,
+      "k": 19,
+      "false_positives": 16,
+      "predicted_positive": 16,
+      "true_positives": 0,
+      "false_negatives": 0,
+      "true_negatives": 372,
+      "false_positive_rate": 0.041237113402061855
+    },
+    "ordinary": {
+      "threshold": 0.5606097225400263,
+      "precision": 0.0,
+      "recall": 0.0,
+      "precision_at_k": 0.0,
+      "k": 21,
+      "false_positives": 15,
+      "predicted_positive": 15,
+      "true_positives": 0,
+      "false_negatives": 0,
+      "true_negatives": 399,
+      "false_positive_rate": 0.036231884057971016
+    },
+    "peeling": {
+      "threshold": 0.5606097225400263,
+      "precision": 1.0,
+      "recall": 0.7590361445783133,
+      "precision_at_k": 1.0,
+      "k": 37,
+      "false_positives": 0,
+      "predicted_positive": 504,
+      "true_positives": 504,
+      "false_negatives": 160,
+      "true_negatives": 80,
+      "false_positive_rate": 0.0
+    }
+  },
+  "training_and_generation_seconds": 11.991264299998875
 }

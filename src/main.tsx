@@ -23,7 +23,9 @@ import {
   limitations,
   type Review,
 } from "./cases";
-import { lookupGeo, validateGeo, type GeoRow } from "./geo";
+import { GeoPanel } from "./GeoPanel";
+import { EmbeddingMatches } from "./EmbeddingMatches";
+import sampleManifest from "../public/data/manifest.json";
 import "./style.css";
 import { CaseOverview, GettingStarted } from "./Dashboard";
 import {
@@ -113,9 +115,8 @@ function App() {
     [selected, setSelected] = useState<Alert | null>(null),
     [graphFocus, setGraphFocus] = useState(""),
     [seed, setSeed] = useState(""),
-    [provenance, setProvenance] = useState(""),
-    [geo, setGeo] = useState<GeoRow[]>([]),
-    [geoIp, setGeoIp] = useState("");
+    [provenance, setProvenance] = useState("");
+  const [geo, setGeo] = useState<any[]>([]);
   const worker = useRef<Worker | null>(null),
     pending = useRef(
       new Map<
@@ -232,7 +233,7 @@ function App() {
     await task(async () => {
       setPreview(null);
       setRaw(null);
-      if (file.size > MAX_BYTES) throw Error("File exceeds 50 MiB limit");
+      if (file.size > MAX_BYTES) throw Error("File exceeds 100 MiB limit");
       const text = await file.text(),
         format = file.name.split(".").pop()!.toLowerCase();
       const p = await rpc("preview", { text, format });
@@ -245,7 +246,7 @@ function App() {
   }
   async function importCase(file: File) {
     await task(async () => {
-      if (file.size > 50 * 1024 * 1024) throw Error("Case exceeds 50 MiB");
+      if (file.size > 100 * 1024 * 1024) throw Error("Case exceeds 100 MiB");
       const c = readCase(await file.text());
       if (c.analysis.modelVersion !== model?.version)
         throw Error("Case model version differs from bundled model");
@@ -351,7 +352,7 @@ function App() {
     setMessage("");
   };
   useEffect(() => registerNavigation(setPage, pages), []);
-  const geoResult = lookupGeo(geoIp, geo);
+
   return (
     <div className="app">
       <header className="topbar">
@@ -374,12 +375,29 @@ function App() {
             </button>
           ))}
         </nav>
-        <details className="theme-menu" onKeyDown={(e) => { if (e.key === "Escape") e.currentTarget.open = false; }}>
-          <summary className="theme-switch">Mode <span>▾</span></summary>
+        <details
+          className="theme-menu"
+          onKeyDown={(e) => {
+            if (e.key === "Escape") e.currentTarget.open = false;
+          }}
+        >
+          <summary className="theme-switch">
+            Mode <span>▾</span>
+          </summary>
           <div className="theme-options" aria-label="Color theme">
-            {["light", "dark", "system"].map(choice => <button key={choice} aria-pressed={themeChoice === choice} onClick={e => { setThemeChoice(choice); e.currentTarget.closest("details")?.removeAttribute("open"); }}>
-              {choice[0].toUpperCase() + choice.slice(1)} {themeChoice === choice ? "✓" : ""}
-            </button>)}
+            {["light", "dark", "system"].map((choice) => (
+              <button
+                key={choice}
+                aria-pressed={themeChoice === choice}
+                onClick={(e) => {
+                  setThemeChoice(choice);
+                  e.currentTarget.closest("details")?.removeAttribute("open");
+                }}
+              >
+                {choice[0].toUpperCase() + choice.slice(1)}{" "}
+                {themeChoice === choice ? "✓" : ""}
+              </button>
+            ))}
           </div>
         </details>
       </header>
@@ -453,7 +471,9 @@ function App() {
                   ))}
                 </div>
                 <small>
-                  170 transactions · 284 relay observations · synthetic
+                  {sampleManifest.transactions.toLocaleString()} transactions ·{" "}
+                  {sampleManifest.observations.toLocaleString()} relay
+                  observations · synthetic
                 </small>
               </div>
             </section>
@@ -627,7 +647,7 @@ function App() {
             <section className="panel">
               <h2>Import transaction & network records</h2>
               <p>
-                CSV, JSON or XML · maximum 50 MiB / 50,000 source records. ISO
+                CSV, JSON or XML · maximum 100 MiB / 100,000 source records. ISO
                 timestamps require timezones. Amounts are integer satoshis.
               </p>
               <label className="upload">
@@ -944,6 +964,12 @@ function App() {
                     txid={selected.txid}
                     onSelect={setSelected}
                   />
+                  <EmbeddingMatches
+                    analysis={analysis}
+                    txid={selected.txid}
+                    onSelect={setSelected}
+                    rpc={rpc}
+                  />
                   <AnalystSummary alert={selected} analysis={analysis} />
                   <div className="review">
                     <label>
@@ -1081,7 +1107,7 @@ function App() {
                       setSelected(null);
                       setPreview(null);
                       setRaw(null);
-                      setGeo([]);
+
                       setSeed("");
                       setProvenance("");
                       try {
@@ -1265,44 +1291,11 @@ function App() {
                 </details>
               </>
             )}
-            <details className="panel optional-tool">
-              <summary>Look up an IP location</summary>
-              <p>
-                Load a licensed local CIDR lookup table. IPv4 and IPv6
-                longest-prefix matching are supported. Approximate location does
-                not identify a person. No real Geo-IP data is bundled.
-              </p>
-              <input
-                aria-label="Import Geo-IP"
-                type="file"
-                accept=".json"
-                onChange={(e) => {
-                  const f = e.target.files?.[0];
-                  if (f)
-                    void task(async () => {
-                      if (f.size > 20 * 1024 * 1024)
-                        throw Error("Geo-IP file exceeds 20 MiB");
-                      setGeo(validateGeo(JSON.parse(await f.text())));
-                      setMessage("Local Geo-IP table loaded.");
-                    });
-                }}
-              />
-              <label>
-                IP lookup
-                <input
-                  aria-label="IP lookup"
-                  value={geoIp}
-                  onChange={(e) => setGeoIp(e.target.value)}
-                />
-              </label>
-              <p>
-                {geoResult
-                  ? `${geoResult.country} · AS${geoResult.asn} · ${geoResult.source} · updated ${geoResult.updated}`
-                  : "Geo-IP unavailable"}
-              </p>
-            </details>
           </>
         )}
+        <div hidden={page !== "Investigations"}>
+          <GeoPanel analysis={analysis} onResults={setGeo} />
+        </div>
         {page === "Model and evaluation" && (
           <>
             <section className="panel">
@@ -1331,6 +1324,20 @@ function App() {
                   </p>
                 </article>
               </div>
+              <section className="embedding-info">
+                <h3>Graph embeddings</h3>
+                <p>
+                  Four learned dimensions summarise each transaction and its
+                  earlier two-hop neighbourhood. Open a transaction in Analyst
+                  workspace to find similar structures.
+                </p>
+                <p>
+                  The detector uses the stronger development-selected
+                  representation: {model?.selected_representation}. Embeddings
+                  remain available for similarity search; they are not ownership
+                  evidence.
+                </p>
+              </section>
               <details>
                 <summary>Training details and downloads</summary>
                 <p>
@@ -1338,18 +1345,19 @@ function App() {
                   transactions; runs locally in your browser.
                 </p>
                 <p>
-                  64 trees, 256 training samples per tree, random seed 1729.
-                  Alert threshold: {model?.alert_threshold.toFixed(6)}.
+                  {model?.trees.length} trees, {model?.max_samples} training
+                  samples per tree, random seed 1729. Alert threshold:{" "}
+                  {model?.alert_threshold.toFixed(6)}.
                 </p>
                 <p>
-                  Score = 2^(−mean adjusted path length / c(256)). Percentile is
-                  the share of calibration scores at or below the transaction's
-                  score.
+                  Score = 2^(−mean adjusted path length / c({model?.max_samples}
+                  )). Percentile is the share of calibration scores at or below
+                  the transaction's score.
                 </p>
                 <p>
-                  Training, calibration and evaluation use separate scenarios
-                  and seeds. Evaluation labels mark bursts and peeling patterns,
-                  not crime.
+                  Training, development, calibration and evaluation use separate
+                  scenarios and seeds. Evaluation labels mark bursts and peeling
+                  patterns, not crime.
                 </p>
                 <div className="toolbar">
                   <a href="./model/isolation-forest.json" download>
@@ -1394,9 +1402,11 @@ function App() {
                               ? "Trained model"
                               : "Simple rules"}
                           </td>
-                          <td>{evaluation[k].precision_at_k.toFixed(3)}</td>
-                          <td>{evaluation[k].precision.toFixed(3)}</td>
-                          <td>{evaluation[k].recall.toFixed(3)}</td>
+                          <td>
+                            {(100 * evaluation[k].precision_at_k).toFixed(2)}%
+                          </td>
+                          <td>{(100 * evaluation[k].precision).toFixed(2)}%</td>
+                          <td>{(100 * evaluation[k].recall).toFixed(2)}%</td>
                           <td>{evaluation[k].false_positives}</td>
                         </tr>
                       ))}
@@ -1404,8 +1414,9 @@ function App() {
                   </table>
                 </div>
                 <p className="evaluation-note">
-                  The model misses most labelled patterns in this test. These
-                  results do not measure real-world crime detection.
+                  Measured on unseen synthetic scenarios. These results do not
+                  measure real-world crime detection; false positives and missed
+                  patterns remain.
                 </p>
                 <details>
                   <summary>What these numbers mean</summary>

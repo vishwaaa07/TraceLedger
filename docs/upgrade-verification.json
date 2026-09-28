@@ -1,0 +1,18 @@
+{
+  "model": "iforest-2.0.0",
+  "unit_tests": 26,
+  "python_tests": 2,
+  "browser_verification": "9 main scenarios passed (bulk skipped in main run); final focused Geo-IP and bulk scenarios both passed. 10 distinct scenarios covered.",
+  "offline": "Non-localhost requests blocked in browser; bundled Geo-IP IPv4/IPv6 lookups and sample analysis passed. Native Linux not tested.",
+  "bulk": {
+    "browser": "153.0.8010.53",
+    "elapsedMs": 14712,
+    "fixtureBytes": 71115668,
+    "workflow": "upload, preview, validation, actual worker scoring, analyst table rendering"
+  },
+  "limitations": [
+    "Synthetic generator-family evaluation, not real-world detection accuracy",
+    "100000-record ceiling not fully benchmarked; 58555 source records tested",
+    "Graph embeddings used for similarity; context-only detector selected on development performance"
+  ]
+}

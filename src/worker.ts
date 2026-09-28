@@ -3,6 +3,24 @@ import { analyze, subgraph, transactionPath } from "./engine";
 self.onmessage = async (e: MessageEvent) => {
   const { id, action, ...args } = e.data;
   try {
+    if (action === "similar") {
+      const vectors = args.vectors as { txid: string; vector: number[] }[];
+      const target = vectors.find((v) => v.txid === args.txid);
+      if (!target || target.vector.length !== 4)
+        throw Error("Graph embedding unavailable");
+      const result = vectors
+        .filter((v) => v.txid !== args.txid)
+        .map((v) => ({
+          txid: v.txid,
+          distance: Math.sqrt(
+            v.vector.reduce((s, x, j) => s + (x - target.vector[j]) ** 2, 0),
+          ),
+        }))
+        .sort((a, b) => a.distance - b.distance || a.txid.localeCompare(b.txid))
+        .slice(0, 5);
+      self.postMessage({ id, result });
+      return;
+    }
     const progress = (value: number, message: string) =>
       self.postMessage({ id, progress: value, message });
     if (action === "preview") {

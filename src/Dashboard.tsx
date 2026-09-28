@@ -269,7 +269,7 @@ export function GettingStarted({
           <b>01</b>
           <span>
             <strong>Import & validate</strong>
-            <small>CSV, JSON or XML · up to 50 MiB</small>
+            <small>CSV, JSON or XML · up to 100 MiB</small>
           </span>
           <i>↗</i>
         </button>

@@ -7,7 +7,7 @@ Import transaction and peer-observation records, inspect unusual activity, and f
 ## Features
 
 - CSV, JSON and XML imports with column mapping, validation reports and duplicate handling.
-- A sample investigation with 170 transactions and 284 peer observations.
+- A sample investigation with 1,668 transactions and 3,011 peer observations.
 - Model scores, supporting records, feature comparisons and evidence-quality indicators.
 - An analyst workspace with automatic review guidance, editable notes and review status.
 - Interactive graphs with individual output links, bounded neighbourhoods and entity search.
@@ -66,7 +66,7 @@ JavaScript versions are locked in `package-lock.json`. Python versions are pinne
 
 ## Data
 
-Imports accept up to **50 MiB and 50,000 source records**. Parsing runs in a worker but remains in memory. Graph rendering is limited to **180 nodes/blocks** at a time.
+Imports accept up to **100 MiB and 100,000 source records**. Parsing runs in a worker but remains in memory. Graph rendering is limited to **180 nodes/blocks** at a time.
 
 Transactions and network observations are separate. Repeated observations do not increase transaction values or counts. Amounts use integer satoshis: **1 BTC = 100,000,000 satoshis**.
 
@@ -76,24 +76,26 @@ The generator creates coherent synthetic output-spending relationships and keeps
 python pipeline/generate.py --seed 705 --scenarios 70 --output generated/case705
 ```
 
-See [Data format](docs/DATA.md) for fields and CSV array conventions, and [Geo-IP](docs/GEOIP.md) for local enrichment. No real location database or live Bitcoin feed is bundled.
+See [Data format](docs/DATA.md) for fields and CSV array conventions, and [Geo-IP](docs/GEOIP.md) for local enrichment. DB-IP Lite country and ASN databases are bundled for offline use. No live Bitcoin feed is bundled.
 
 ## Model
 
-The included `iforest-1.0.0` is a fitted **Isolation Forest with 64 trees**. It uses eight features, including transformed amounts, input/output counts, output distribution and prior address activity. The browser evaluates exported trees and compares scores with a fixed calibration set.
+The included `iforest-2.0.0` is a fitted **Isolation Forest with 128 trees**. It uses 13 transaction and past-neighbourhood features. A separate learned four-dimensional graph embedding supports structural similarity search in Analyst workspace. It uses two-hop mean aggregation and PCA, not graph ownership inference.
 
-The automatic analyst summary uses fixed guidance around these results. It is not an LLM response. Feature comparisons are supporting observations, not causal model attributions.
+Training, development, calibration and evaluation use independent seeds and complete scenarios. The threshold is selected on development data under a 10% normal false-positive constraint. Evaluation is not used for selection. The model without embedding dimensions performed better, so that is the deployed detector; both ablations are published.
 
-Held-out synthetic evaluation used 510 transactions:
+Held-out synthetic evaluation: **3,403 transactions**, 1,296 burst/peeling targets.
 
-| Metric | Isolation Forest | Rule baseline |
+| Metric | Isolation Forest v2 | Rule baseline |
 |---|---:|---:|
-| Precision | 10% | 50% |
-| Recall | 0.56% | 75% |
-| Precision at 26 | 38.46% | 38.46% |
-| False positives | 9 | 135 |
+| Precision | 83.62% | 50.12% |
+| Recall | 78.40% | 62.81% |
+| Precision at 170 | 91.18% | 53.53% |
+| False positives | 199 | 810 |
 
-The model threshold is `0.6126200911900463`. Labels identify synthetic burst/peeling scenarios, not criminality. Recall is low and further development is needed before real investigative use. See the [model card](docs/MODEL_CARD.md) and [evaluation artifact](public/model/evaluation.json).
+Threshold: `0.5606097225400263`. Three additional seeds gave recall of 77.20–79.12%. These labels describe synthetic patterns, not criminality. The former 0.56% recall used a different, smaller benchmark; it is not a like-for-like improvement estimate. Retrained legacy features reached 5.40% recall on the new test set, at a different false-positive operating point. See the [model card](docs/MODEL_CARD.md) and [complete evaluation](public/model/evaluation.json).
+
+The automatic analyst summary uses fixed guidance around model results, not an LLM. Feature comparisons support review; they are not causal model attribution. Real investigative effectiveness remains unverified.
 
 ### Reproduce training
 
@@ -123,7 +125,9 @@ npm run test:e2e
 
 Playwright uses installed Chrome by default. Tests cover imports, accounting, duplicate observations, prior-only features, model parity, graph evidence, exports, storage failures and the analyst workflow. Browser tests generate ignored screenshots and reports locally.
 
-The inference suite compares 100 vectors with Python at a tolerance of `1e-10`. A measured bulk fixture contained 23,227 records and 12,142 transactions. Its JSON browser workflow took 10.21 seconds on Chrome 153 / Windows 11 / Ryzen 5 PRO 8540U. CSV, JSON and XML produced matching scores. These are individual runs, not guaranteed performance. Details are in [Bulk imports](docs/BULK_IMPORT.md).
+The inference suite compares 100 vectors with Python at a tolerance of `1e-10`, including learned graph coordinates. The bulk fixture contains 58,555 records and 30,653 transactions. Its 71 MB JSON browser workflow took 14.71 seconds on Chrome 153 / Windows 11 / Ryzen 5 PRO 8540U. CSV, JSON and XML scores match. These are individual runs, not guaranteed performance. See [Bulk imports](docs/BULK_IMPORT.md).
+
+To use the real offline location database, open **Investigations → Local Geo-IP database → Load bundled Geo-IP databases**. Enter an IP or leave it blank to look up case peers. Synthetic documentation IPs correctly remain unavailable. See [Geo-IP licensing and updates](docs/GEOIP.md).
 
 ## Netlify
 
@@ -139,8 +143,10 @@ The project owner has deployed on Netlify. The hosted workflow has not been inde
 src/                 UI, worker, parser, inference and graph logic
 public/data/         Samples and malformed-record fixture
 public/model/        Browser model, manifest and reference scores
+public/geo/          Licensed DB-IP Lite country/ASN snapshots
+public/geo/          Licensed DB-IP Lite country/ASN snapshots
 pipeline/            Generation, training, evaluation and packaging
-pipeline/datasets/   Training, calibration and evaluation data
+pipeline/datasets/   Training, development, calibration and evaluation data
 scripts/             Benchmarks and dependency-notice generation
 tests/               Unit and browser tests
 docs/                Architecture, schema, model and enrichment details

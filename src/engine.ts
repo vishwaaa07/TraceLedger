@@ -1,62 +1,6 @@
 import type { Dataset, Model, Analysis, Element, Exposure } from "./types";
-export const FEATURE_NAMES = [
-  "log_output_sats",
-  "input_count",
-  "output_count",
-  "log_fee_sats",
-  "largest_output_share",
-  "output_cv",
-  "prior_address_1h",
-  "prior_parent_count",
-];
-export function features(d: Dataset): Map<string, number[]> {
-  const history = new Map<string, number[]>(),
-    seen = new Map<string, number>(),
-    result = new Map<string, number[]>();
-  for (const tx of [...d.transactions].sort(
-    (a, b) =>
-      a.timestamp.localeCompare(b.timestamp) || a.txid.localeCompare(b.txid),
-  )) {
-    const now = Date.parse(tx.timestamp),
-      amounts = tx.outputs.map((o) => o.amount),
-      total = amounts.reduce((a, b) => a + b, 0),
-      mean = total / amounts.length;
-    const cv = mean
-      ? Math.sqrt(
-          amounts.reduce((s, a) => s + (a - mean) ** 2, 0) / amounts.length,
-        ) / mean
-      : 0;
-    const addresses = new Set(
-      [...tx.inputs, ...tx.outputs].map((a) => a.address),
-    );
-    let activity = 0;
-    for (const a of addresses)
-      activity += (history.get(a) || []).filter(
-        (t) => now - 3600000 <= t && t < now,
-      ).length;
-    const parents = tx.inputs.filter(
-      (i) =>
-        i.prev_txid && seen.has(i.prev_txid) && seen.get(i.prev_txid)! < now,
-    ).length;
-    result.set(tx.txid, [
-      Math.log1p(total),
-      tx.inputs.length,
-      tx.outputs.length,
-      Math.log1p(tx.fees ?? 0),
-      total ? Math.max(...amounts) / total : 0,
-      cv,
-      activity,
-      parents,
-    ]);
-    for (const a of addresses)
-      history.set(a, [
-        ...(history.get(a) || []).filter((t) => t >= now - 3600000),
-        now,
-      ]);
-    seen.set(tx.txid, now);
-  }
-  return result;
-}
+import { features, FEATURE_NAMES } from "./representation.ts";
+export { features, FEATURE_NAMES } from "./representation.ts";
 const c = (n: number) =>
   n <= 1
     ? 0
@@ -65,9 +9,17 @@ const c = (n: number) =>
       : 2 * (Math.log(n - 1) + 0.5772156649015329) - (2 * (n - 1)) / n;
 export function validateModel(m: Model) {
   if (
-    m.schema_version !== 1 ||
+    m.schema_version !== 2 ||
     JSON.stringify(m.features) !== JSON.stringify(FEATURE_NAMES) ||
     !m.trees?.length ||
+    !m.embedding ||
+    m.embedding.components?.length !== 4 ||
+    m.embedding.components.some(
+      (row) => row.length !== 18 || !row.every(Number.isFinite),
+    ) ||
+    m.embedding.mean.length !== 18 ||
+    m.embedding.scale.length !== 18 ||
+    m.embedding.scale.some((x) => !Number.isFinite(x) || x <= 0) ||
     !m.calibration_scores?.length
   )
     throw Error("Missing or incompatible model artifact");
@@ -105,7 +57,7 @@ export function analyze(
   const start = performance.now();
   validateModel(m);
   if (!d.transactions.length) throw Error("No valid transactions to analyze");
-  const vectors = features(d),
+  const vectors = features(d, m),
     elements: Element[] = [],
     nodeIds = new Set<string>(),
     edgeIds = new Set<string>(),
@@ -266,12 +218,18 @@ export function analyze(
           });
     }
   }
+  const obsByTx = new Map<string, typeof d.observations>();
+  for (const o of d.observations) {
+    const list = obsByTx.get(o.txid) || [];
+    list.push(o);
+    obsByTx.set(o.txid, list);
+  }
   const alerts = d.transactions
     .map((t) => {
       const x = vectors.get(t.txid)!,
         s = score(x, m),
         p = percentile(s, m.calibration_scores),
-        obs = d.observations.filter((o) => o.txid === t.txid);
+        obs = obsByTx.get(t.txid) || [];
       const resolved = t.inputs.filter(
         (i) => i.prev_txid && txById.has(i.prev_txid),
       ).length;
@@ -318,9 +276,7 @@ export function analyze(
             ]
           : []),
         ...(s >= m.alert_threshold
-          ? [
-              "Isolation Forest score exceeds calibration 95th-percentile threshold",
-            ]
+          ? ["Isolation Forest score exceeds development-selected threshold"]
           : []),
       ];
       return {

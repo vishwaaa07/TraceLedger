@@ -1166,3 +1166,6 @@ SOFTWARE.
 
 
 === victory-vendor 37.3.6 | MIT AND ISC ===
+
+
+DB-IP Lite country and ASN data: IP Geolocation by DB-IP (https://db-ip.com). CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Unmodified provider gzip CSV snapshots; see public/geo/manifest.json for release and hashes.

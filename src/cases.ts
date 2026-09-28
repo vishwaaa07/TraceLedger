@@ -30,7 +30,7 @@ export const caseFile = (
   limitations,
 });
 export function readCase(text: string): CaseFile {
-  if (text.length > 50 * 1024 * 1024) throw Error("Case exceeds 50 MiB limit");
+  if (new TextEncoder().encode(text).length > 100 * 1024 * 1024) throw Error("Case exceeds 100 MiB limit");
   const c = JSON.parse(text);
   if (
     c.format !== "trace-ledger-case" ||

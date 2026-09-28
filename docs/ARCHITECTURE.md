@@ -22,14 +22,14 @@ flowchart LR
 ## Module boundaries
 
 - `pipeline/generate.py`: deterministic synthetic UTXO creation, independent scenario labels, three encodings.
-- `pipeline/train.py`: pure feature extraction, reference selection, fit, tree export, score vectors and measured evaluation.
+- `pipeline/train.py` / `train_v2.py`: reference fit, development selection, independent calibration/evaluation and exports. `pipeline/representation.py` and `src/representation.ts` share the chronological feature and learned PCA embedding contract.
 - `src/ingest.ts`: format parsers, mapping, timestamp/IP/port/amount checks, source provenance, conflict and UTXO validation, raw-file SHA-256.
 - `src/engine.ts`: chronological features, faithful Isolation Forest path traversal, fixed percentile, graph edges, heuristics, seed propagation, graph selection and path search.
 - `src/worker.ts`: typed-data messages for preview, ingest, analyze, bounded graph and path queries. No DOM operations or outbound network calls.
 - `src/main.tsx`: seven-section React workbench, loading/error/empty states, worker request lifecycle, review forms and orchestration.
 - `src/Graph.tsx`: Cytoscape locally bundled renderer, selection, filters and exports. Force layout is bounded to the visible graph and runs inside the renderer on the main thread; construction/traversal/filter calculations run in the worker.
 - `src/cases.ts`: portable case representation, CSV escaping, Blob downloads and IndexedDB failure handling.
-- `src/geo.ts`: local CIDR validation/longest-prefix lookup. Optional enrichment is a user-triggered lookup, not a remote service or automatic attribution.
+- `src/geoDatabase.ts` and `src/geo.worker.ts`: local DB-IP range indexes and checksummed bundle loading. `src/geo.ts` retains custom CIDR lookup. Enrichment is user-triggered and session-local.
 
 ## State and concurrency
 
@@ -41,10 +41,10 @@ Saving is explicit. Reload opens an empty workspace; Restore saved case loads th
 
 Safe integer satoshis are validated at every amount and transaction aggregate. BigInt is used for conservation comparisons and whole-dataset sums; totals serialize as decimal strings. Repeated observations never multiply a transaction's amounts. Gross output totals include funding boundary and all forwarding; they are not a wallet balance.
 
-Edges are only created from supplied participation, validated explicit outpoints, actual relay observations, or visibly labelled inferred common-input groups. No timing-based origin inference and no graph embedding are implemented. Network correlation joins a supplied observation TXID to the unique transaction and retains IP/port/time evidence. Timing ranges are supporting observations; clocks may be uncertain.
+Edges are only created from supplied participation, validated explicit outpoints, actual relay observations, or visibly labelled inferred common-input groups. No timing-based origin inference is implemented. Past-only graph embeddings support structural similarity without creating evidence edges. Network correlation joins a supplied observation TXID to the unique transaction and retains IP/port/time evidence. Timing ranges are supporting observations; clocks may be uncertain.
 
 ## Runtime and security boundary
 
-Vite emits static assets with relative paths. No runtime CDNs, telemetry, remote APIs or backend are used. Python's stdlib server binds loopback. `serve.py` adds a self-only CSP for connections/scripts/workers, disallows objects and sets no-referrer/nosniff. DTD/entities are rejected before XML parsing. React escapes imported strings. CSV text prefixes are escaped. Files are capped at 50 MiB/50,000 records; graph rendering at 180 nodes/1,200 total elements. Local case files have a 50 MiB import limit. Browser memory usage limits may still be reached on constrained devices; parsing is not streaming.
+Vite emits static assets with relative paths. No runtime CDNs, telemetry, remote APIs or backend are used. Python's stdlib server binds loopback. `serve.py` adds a self-only CSP for connections/scripts/workers, disallows objects and sets no-referrer/nosniff. DTD/entities are rejected before XML parsing. React escapes imported strings. CSV text prefixes are escaped. Files are capped at 100 MiB/100,000 records; graph rendering at 180 nodes/1,200 total elements. Local case files have a 100 MiB import limit. Browser memory usage limits may still be reached on constrained devices; parsing is not streaming.
 
 Hosted sessions require the host only to load static assets. Runtime privacy depends on serving this audited build from a trusted origin; this prototype does not claim forensic custody or endpoint hardening. An optional feature-detected WebMCP tool only navigates workbench sections; it exposes no uploaded records. Unsupported browsers ignore it.

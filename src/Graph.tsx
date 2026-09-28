@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import cytoscape from "cytoscape";
 import type { Analysis, Element } from "./types";
 import { download } from "./cases";
-import { lookupGeo, type GeoRow } from "./geo";
+
 export function Graph({
   analysis,
   initialFocus,
@@ -14,7 +14,7 @@ export function Graph({
   analysis: Analysis;
   initialFocus: string;
   rpc: (action: string, args: any) => Promise<any>;
-  geo?: GeoRow[];
+  geo?: { ip: string; country: string | null; asn: string | number | null }[];
   theme?: string;
   onReview: (id: string) => void;
 }) {
@@ -629,11 +629,18 @@ export function Graph({
           {selected.type === "ip" && (
             <p>
               {(() => {
-                const g = lookupGeo(selected.id.slice(3), geo);
-                return g
-                  ? `${g.country} · AS${g.asn} · ${g.source} · updated ${g.updated}`
-                  : "Geo-IP unavailable";
-              })()}
+                const g = geo.find((r) => r.ip === selected.id.slice(3));
+                return (
+                  <span>
+                    {g && (g.country || g.asn)
+                      ? `${g.country || "Country unavailable"} · ${g.asn ? "AS" + g.asn : "ASN unavailable"} · local database`
+                      : "Geo-IP unavailable"}
+                  </span>
+                );
+              })()}{" "}
+              <a href="https://db-ip.com" target="_blank" rel="noreferrer">
+                IP Geolocation by DB-IP
+              </a>
             </p>
           )}
           <button

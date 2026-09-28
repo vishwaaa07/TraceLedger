@@ -1,59 +1,64 @@
-# Model card — iforest-1.0.0
+# Model card — iforest-2.0.0
 
 ## Intended use
 
-Rank unusual transaction structure for human investigation of offline metadata. An anomaly is not criminality. This is an evaluated synthetic prototype, **not a validated operational detector**. No graph embeddings, specialised learned peeling detector, calibrated crime probability or model-attribution explanation is claimed.
+Rank unusual metadata for human review, using synthetic structural labels for development evaluation. No crime probabilities, person identification, graph ownership inference or operational crime-detection accuracy are claimed.
 
-## Training and artifact
+## Data and fitting
 
-scikit-learn 1.7.2 IsolationForest, 64 estimators, max_samples=256, random_state=1729, contamination='auto', n_jobs=1, default max_features=1.0, no bootstrap. Fixed synthetic training seed=1201; model fit uses 660 target=0 transactions from 1,020 total. Calibration uses 330 target=0 transactions from seed 2402. Evaluation seed=3603 includes all 510 transactions (180 target, 330 non-target). Complete scenarios are disjoint across splits. Training labels are used only to select the normal-reference population; no identifiers, IPs, labels or scenario names enter the eight features.
+The generator varies chain length, fees, payment fractions and timing. Legitimate scenarios include reused addresses, short fast sequences and large-change lookalikes. Target scenarios contain repeated burst or peeling structures. Initial funding boundaries are non-target. Depleted branches stop before producing invalid outputs. IDs and scenario labels never enter features.
 
-Fit/export: `python pipeline/train.py`. Independent saved-model evaluation: `python pipeline/evaluate.py`. Trusted Python fitted estimator: `pipeline/isolation-forest.joblib`. Browser artifact: `public/model/isolation-forest.json`, schema_version=1. Export contains left/right child indices, feature indices, thresholds, leaf sample counts, feature order, fixed sorted calibration scores, threshold and training reference statistics. Joblib is never loaded by the browser.
+| Split | Seed | Transactions | Non-target | Target |
+|---|---:|---:|---:|---:|
+| training | 81201 | 8541 | 5339 | 3202 |
+| development | 82402 | 2543 | 1566 | 977 |
+| calibration | 83603 | 2557 | 1596 | 961 |
+| evaluation | 84804 | 3403 | 2107 | 1296 |
+| sample | 8542 | 1668 | 1036 | 632 |
 
-## Feature contract (exact order)
+The detector fits only the 5,339 non-target training transactions. StandardScaler and four-component PCA also fit only their graph descriptors. This uses synthetic labels for reference selection; it is not a label-free data preparation claim. scikit-learn 1.7.2, NumPy 2.3.3; 128 Isolation Forest trees, max_samples=512, random_state=1729, n_jobs=1.
 
-| Index | Feature | Formula / semantics |
-|---:|---|---|
-| 0 | log_output_sats | natural log(1 + sum of output satoshis) |
-| 1 | input_count | Number of input objects |
-| 2 | output_count | Number of outputs |
-| 3 | log_fee_sats | natural log(1 + fee satoshis); missing uses 0 and warning |
-| 4 | largest_output_share | max(output)/sum(output); 0 if total=0 |
-| 5 | output_cv | Population standard deviation of outputs / mean; 0 if mean=0 |
-| 6 | prior_address_1h | Across distinct participating addresses, count earlier transaction appearances in [t−3600 seconds,t); each address once per transaction |
-| 7 | prior_parent_count | Number of inputs whose explicit parent exists and has strictly earlier transaction time; counts inputs, not distinct parent TXIDs |
+Two candidates were declared before evaluation: 13 contextual features, or those features plus four graph embedding coordinates. Development selects the candidate and threshold by F2 under <=10% non-target false-positive rate. Threshold candidates are development-normal score quantiles from 0.90 to 0.999. Independent normal calibration scores determine displayed percentiles, not the alert threshold. A rounding allowance in the first implementation was corrected to enforce the exact 10% development constraint; no evaluation scores chose that correction.
 
-Time is the supplied transaction event time normalized to UTC. It is not blockchain block time unless the supplier defines it that way. Observation timestamps are separate network evidence. Transactions process in timestamp/TXID order; same-time transactions cannot see each other in historical features. Features do not read future graph neighbours or future observations. The full graph/heuristics may use all imported evidence, but those retrospective results do not enter model features.
+The context-only candidate wins on development. Graph embeddings remain implemented and exposed through similar-structure search. We do not claim that embeddings improve detection.
 
-No standard scaling: tree splits operate on these transformed features. Every tree comparison uses float32-rounded feature values (`Math.fround`), matching scikit-learn's input conversion. Monetary accounting remains integer/BigInt; floating point is used only for statistical features/scores.
+## Feature contract
 
-## Score and percentile
+The first eight features retain their order: log_output_sats, input_count, output_count, log_fee_sats, largest_output_share, output_cv, prior_address_1h, prior_parent_count. Amount and fee use log1p; output_cv is population SD/mean. Missing fee uses zero with a warning. Address history counts earlier appearances in [t-3600,t), once per distinct address per transaction. Parent count counts input references, not unique parents.
 
-For each tree, traverse until a leaf. Path length = edge depth + c(leaf_sample_count), where c(0)=c(1)=0, c(2)=1, and for n>2, c(n)=2(log(n−1)+EulerGamma)−2(n−1)/n. Score=2^(−mean_path_length/c(256)), equal to **negative sklearn score_samples**. Higher is more anomalous. Calibration percentile=100 × number of fixed calibration scores ≤ score / 330 (right-continuous empirical CDF). It is not a probability.
+Five added features: log_parent_gap_seconds (log1p minimum parent age, capped/default 86400); prior_chain_depth (longest known parent path, capped 20); parent_mean_output_share; prior_fast_chain (consecutive parent steps with gap <60 seconds, capped 20); prior_retained_chain (consecutive >=90% largest-output share steps, capped 20). These are observed context, not scenario labels. The trained forest determines the score; no rule replaces its inference.
 
-Threshold=NumPy's linearly interpolated 95th percentile of normal calibration scores, **0.6126200911900463**. Threshold is independent of the uploaded dataset. Browser alert rule is score ≥ threshold; percentile is a display rank and is not a separate detection threshold.
+Transaction timestamps define history. Equal/future parents and equal/future address appearances are excluded. Missing parents contribute neither links nor fabricated context. Roots have depth zero and missing aggregates are zero. A retrospective display graph does not feed future data into features.
 
-100 fixed held-out vectors and Python reference scores are exported in `reference-scores.json`; TypeScript traversal must agree within **absolute error 1e-10**. Feature extraction is tested separately for no future/equal-time leakage. Tree artifact is deterministic for fixed versions/seeds; measured duration and environment metadata naturally vary.
+## Graph embedding method
 
-## Measured synthetic evaluation
+Each transaction has six attributes: log1p(input count), log1p(output count), largest-output share, log1p(prior address activity), log1p(parent gap), log1p(capped depth). Concatenate these with means over earlier input parents and their earlier-parent mean attributes: an 18-dimensional, directed two-hop descriptor. Input references weight aggregation; duplicate inputs referencing different outputs of one parent contribute separately. Missing neighbourhoods are zero.
 
-Target positives = non-funding burst or peeling scenario transactions. Other examples, including high-value, batch, consolidation and CoinJoin-like transactions, count as non-target. These labels do **not** define crime.
+Transform the descriptor using the fitted training standardisation, then a fitted four-component PCA projection. The export includes means, scales, PCA centring and component matrix. This is a learned attributed-graph representation with deterministic mean aggregation, not Node2Vec, GraphSAGE or a trained GNN. It is inductive: new graphs use the same projection without retraining. No IDs or global future adjacency enter the representation.
 
-| Method | Threshold | Precision@26 | Precision | Recall | False positives | Flagged |
-|---|---:|---:|---:|---:|---:|---:|
-| Isolation Forest | 0.6126200911900463 | 0.384615 | 0.100000 | 0.005556 | 9 | 10 |
-| Rule comparison | ≥0.5 on boolean rule | 0.384615 | 0.500000 | 0.750000 | 135 | 270 |
+Analyst workspace computes Euclidean nearest neighbours in these four coordinates inside the worker. Distance indicates structural similarity only; it creates no ownership or spending edges. Python/TypeScript parity tests cover the entire feature vector, including embeddings, and removal of parent evidence changes embeddings.
 
-Comparison rule = (prior_address_1h ≥ 3 OR largest_output_share ≥ 0.94). K=round(0.05×510)=26. Python uses a stable descending sort for ties; generated evaluation IDs are timestamp/TXID ordered. Raw measurement: `public/model/evaluation.json`. No confidence intervals or calibrated likelihoods are estimated.
+## Score and export
 
-**Interpretation:** the fitted model poorly recovers these labelled structures at the fixed threshold. It often regards legitimate multi-input or other unusual transactions as anomalous; structurally frequent or unseen constant-feature patterns can evade Isolation Forest. The explicit pattern baseline has more recall at a large false-positive cost. This result is a limitation to disclose, not a reason to present the rules as the trained model. More realistic and diverse references, rigorous feature research and new untouched evaluation scenarios are needed before operational use.
+Raw score = 2^(-mean adjusted isolation path length / c(512)), equal to negative sklearn score_samples. The usual Isolation Forest c(n) correction uses Euler's constant, with c(0)=c(1)=0 and c(2)=1. Tree comparisons round features to float32. Accounting remains integer/BigInt.
 
-The training reference choice was revised once during implementation after inspecting an initial all-scenario result. The final evaluation is therefore a development measurement, not a preregistered blind benchmark. No hyperparameter search or test-set optimization claim is made.
+Percentile = 100 × fraction of fixed normal calibration scores <= raw score. Alert threshold = 0.5606097225400263. It is not a probability. The model artifact has schema_version=2 and 17 feature slots, although the selected forest splits only on the first 13. A matching model version is required for case re-import; old cases need their original version or source-data reanalysis.
 
-## Evidence quality and explanation
+## Evaluation
 
-Evidence quality is a deterministic availability index: 25 structure + 25 known fee + up to 25 resolved input fraction + 25 for at least one valid network observation. Explicit initial funding boundaries get the reference component. It does not incorporate authenticity, sensor reliability or statistical confidence. A complete synthetic record can score 100 without implying truth or criminality.
+| Method | Precision | Recall | Precision@170 | FP | Normal FPR |
+|---|---:|---:|---:|---:|---:|
+| Selected context forest | 83.62% | 78.40% | 91.18% | 199 | 9.44% |
+| Context + graph embedding | 83.45% | 73.53% | 84.12% | 189 | 8.97% |
+| Simple rule | 50.12% | 62.81% | 53.53% | 810 | 38.44% |
+| Legacy eight features, retrained on new data | 40.23% | 5.40% | 40.00% | 104 | 4.94% |
 
-The UI shows feature values alongside reference median/p05/p95, raw transaction source, normalized network evidence, timestamp range and validated graph links. These are **supporting observations**, not SHAP, attribution or causal explanations. Anomaly score, evidence quality and seed exposure are separate quantities.
+The rule is prior_address_1h >=3 OR largest_output_share >=0.94. Operating points differ; compare false-positive workload as well as recall. The selected model detects 1,016 targets, misses 280 and flags 199 non-targets. Per-scenario counts are in evaluation.json. Three further seeds (85905, 86006, 87107) yield 77.20–79.12% recall and 82.46–85.02% precision. Evaluation/stress scenarios are excluded from fitting and selection, but share the same synthetic generator family. They do not establish generalisation to real cases.
 
-Reference: [scikit-learn Isolation Forest API](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.IsolationForest.html) and [outlier detection guide](https://scikit-learn.org/stable/modules/outlier_detection.html#isolation-forest). The delivered code pins 1.7.2; current online docs may describe newer versions. The implementation is verified against the pinned Python estimator rather than assumed from documentation.
+The v1 report is retained as evaluation-v1.json. Its 0.56% recall used a different generator and test population, so a direct percentage-point improvement claim would confound data and model changes. The new model still has false positives, synthetic-feature bias and blind spots at early chain steps. Independently sourced data, governance review and expert validation are required before operational use.
+
+## Reproduce
+
+Run `python pipeline/train.py`, `python pipeline/evaluate.py`, `python pipeline/test_pipeline.py`, then `npm test`. Training regenerates data and artifacts. Tests compare 100 fixed Python scores and all 17 TypeScript features with absolute tolerance 1e-10, including no-future/equal-time leakage. Graph embeddings and evaluation reports are exported with the fitted model.
+
+Evidence quality remains an availability index, not statistical confidence: 25 structure, 25 known fee, up to 25 resolved references and 25 valid network observation. Feature/reference comparisons are supporting observations, not causal attribution. References: scikit-learn IsolationForest and PCA implementations pinned in pipeline/requirements.txt.

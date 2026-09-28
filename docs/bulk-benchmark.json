@@ -4,43 +4,45 @@
     "os": "Windows_NT",
     "cpu": "AMD Ryzen 5 PRO 8540U w/ Radeon 740M Graphics  "
   },
-  "method": "One sequential run per format, same seed 884 / 2500 complete scenarios. Memory is a post-run snapshot, not peak. Node measurements exclude browser transfer/rendering. Matching transaction scores verified across all formats.",
+  "seed": 9884,
+  "scenarios": 5000,
+  "method": "One sequential run per format. Memory is a post-run snapshot, not peak. Node measurements exclude browser transfer/rendering. Matching transaction scores verified across all formats.",
   "results": [
     {
       "format": "json",
-      "bytes": 28439357,
-      "records": 23227,
-      "transactions": 12142,
-      "observations": 22117,
+      "bytes": 71115668,
+      "records": 58555,
+      "transactions": 30653,
+      "observations": 55747,
       "rejected": 0,
-      "ingestMs": 797.0396,
-      "analysisMs": 5165.496,
-      "totalMs": 5962.5356,
-      "heapUsedAfter": 216931808
+      "ingestMs": 1984.7818000000002,
+      "analysisMs": 2067.9950999999996,
+      "totalMs": 4052.7769,
+      "heapUsedAfter": 496908696
     },
     {
       "format": "csv",
-      "bytes": 22594370,
-      "records": 23227,
-      "transactions": 12142,
-      "observations": 22117,
+      "bytes": 56361769,
+      "records": 58555,
+      "transactions": 30653,
+      "observations": 55747,
       "rejected": 0,
-      "ingestMs": 1419.6314000000002,
-      "analysisMs": 6176.4598,
-      "totalMs": 7596.0912,
-      "heapUsedAfter": 408865488
+      "ingestMs": 3306.5468,
+      "analysisMs": 2007.8112,
+      "totalMs": 5314.358,
+      "heapUsedAfter": 778272384
     },
     {
       "format": "xml",
-      "bytes": 33974756,
-      "records": 23227,
-      "transactions": 12142,
-      "observations": 22117,
+      "bytes": 85069367,
+      "records": 58555,
+      "transactions": 30653,
+      "observations": 55747,
       "rejected": 0,
-      "ingestMs": 3154.164600000002,
-      "analysisMs": 5201.446,
-      "totalMs": 8355.610600000002,
-      "heapUsedAfter": 291032240
+      "ingestMs": 8564.0916,
+      "analysisMs": 2904.3817000000017,
+      "totalMs": 11468.473300000001,
+      "heapUsedAfter": 696341824
     }
   ]
 }

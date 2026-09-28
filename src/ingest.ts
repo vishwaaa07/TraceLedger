@@ -2,8 +2,8 @@ import Papa from "papaparse";
 import { XMLParser, XMLValidator } from "fast-xml-parser";
 import ipaddr from "ipaddr.js";
 import type { Dataset, Tx, Observation, Issue, Input, Output } from "./types";
-export const MAX_BYTES = 50 * 1024 * 1024,
-  MAX_RECORDS = 50000;
+export const MAX_BYTES = 100 * 1024 * 1024,
+  MAX_RECORDS = 100000;
 const txidRe = /^[a-fA-F0-9]{64}$/;
 function array(x: unknown): any[] {
   const v = typeof x === "string" ? JSON.parse(x) : x;
@@ -44,7 +44,7 @@ function address(x: unknown) {
 const bool = (v: unknown) => v === true || v === "true";
 export function parseRows(text: string, format: string): Record<string, any>[] {
   if (new TextEncoder().encode(text).length > MAX_BYTES)
-    throw Error("File exceeds 50 MiB limit");
+    throw Error("File exceeds 100 MiB limit");
   let rows: any;
   if (format === "csv") {
     const p = Papa.parse<Record<string, any>>(text, {
@@ -68,7 +68,7 @@ export function parseRows(text: string, format: string): Record<string, any>[] {
     if (!Array.isArray(rows)) rows = rows.records;
   } else throw Error("Choose CSV, JSON or XML");
   if (!Array.isArray(rows) || !rows.length) throw Error("No records found");
-  if (rows.length > MAX_RECORDS) throw Error("Record limit: 50,000");
+  if (rows.length > MAX_RECORDS) throw Error("Record limit: 100,000");
   if (rows.some((r) => !r || typeof r !== "object" || Array.isArray(r)))
     throw Error("Each record must be an object");
   return rows;

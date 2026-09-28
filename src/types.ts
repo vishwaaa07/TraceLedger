@@ -54,6 +54,17 @@ export type Tree = {
   samples: number[];
 };
 export type Model = {
+  embedding: {
+    method: string;
+    dimensions: number;
+    mean: number[];
+    scale: number[];
+    pca_mean: number[];
+    components: number[][];
+    explained_variance_ratio: number[];
+  };
+  selected_representation: string;
+  threshold_method: string;
   version: string;
   schema_version: number;
   features: string[];

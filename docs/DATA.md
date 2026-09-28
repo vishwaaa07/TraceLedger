@@ -37,21 +37,26 @@ Transaction timestamp, TXID and amounts/addresses are the minimum structure. Kno
 
 Invalid transaction rows are rejected. All records for conflicting TXIDs are excluded; invalid spend transactions and their descendants are excluded. Competing spends reject the later transaction in deterministic timestamp/TXID order; this is data validation, not consensus adjudication. Parent output amount/address/index and strict chronology must match. Repeated source observations do not inflate transaction count/value; duplicate observation IDs warn, conflicting observations are excluded on the conflicting row. Invalid or incomplete IP/port/time excludes that observation while preserving a valid transaction. An observation preceding transaction time warns about clock semantics.
 
-Import displays a five-row preview, column mapping, unique valid transactions, rejected source rows and warnings. The first 100 quality findings are displayed; the JSON report contains all with one-based data-row numbers (CSV header excluded). Record limit: 50,000; file limit: 50 MiB UTF-8. Cancellation terminates the worker; reset discards the staged file. No artificial data is inserted to fill missing evidence.
+Import displays a five-row preview, column mapping, unique valid transactions, rejected source rows and warnings. The first 100 quality findings are displayed; the JSON report contains all with one-based data-row numbers (CSV header excluded). Record limit: 100,000; file limit: 100 MiB UTF-8. Cancellation terminates the worker; reset discards the staged file. No artificial data is inserted to fill missing evidence.
 
 ## Synthetic scenarios and boundaries
 
-Generator: `python pipeline/generate.py --seed 42 --scenarios 35 --output public/data/sample`.
+Generator: `python pipeline/generate.py --seed 8542 --scenarios 280 --output public/data/sample`.
 
 Each independent scenario starts with a funding transaction with explicit `funding_boundary=true` and previously unspent outputs. Those are an external initial funding boundary, not mined block/coinbase simulation. Subsequent inputs reference an existing output exactly once; inputs equal outputs plus fee. Timestamps increase strictly inside each scenario. Synthetic IDs are SHA-256 values and `synthetic_...` address aliases, not spendable Bitcoin keys. IPs are documentation networks 192.0.2.0/24 and 198.51.100.0/24.
 
-Seven scenario families cycle through ordinary payment/change, legitimate batches, legitimate high value, consolidation, rapid bursts, repeated 95%-share forwarding/peeling, and equal-output CoinJoin-like collaboration. Each has three spending steps, or six for burst/peeling. Ordinary/batch/consolidation cases are legitimate lookalikes for simple risk assumptions. CoinJoin-like privacy structures are not wrongdoing. Some scenarios have no peer observations; others have one to three per transaction. The malformed fixture is a separate file and never enters training.
+Seven scenario families cycle through ordinary payment/change, legitimate batches, legitimate high value, consolidation, rapid bursts, repeated 91–98.5%-share forwarding/peeling, and equal-output CoinJoin-like collaboration. Non-target scenarios have 2–6 spending steps; burst/peeling have 6–10. Depleted branches stop early. Normal lookalikes include brief fast sequences, reused addresses and large change. Ordinary/batch/consolidation cases are legitimate lookalikes for simple risk assumptions. CoinJoin-like privacy structures are not wrongdoing. Some scenarios have no peer observations; others have one to three per transaction. The malformed fixture is a separate file and never enters training.
 
 | Split | Seed | Independent scenarios | Unique transactions | Source records |
 |---|---:|---:|---:|---:|
-| Training | 1201 | 210 | 1020 | 1916 |
-| Calibration | 2402 | 105 | 510 | 954 |
-| Evaluation | 3603 | 105 | 510 | 967 |
-| Reviewer sample | 42 | 35 | 170 | 306 |
+| Training | 81201 | 1400 | 8541 | 16338 |
+| Development | 82402 | 420 | 2543 | 4842 |
+| Calibration | 83603 | 420 | 2557 | 4848 |
+| Evaluation | 84804 | 560 | 3403 | 6516 |
+| Sample | 8542 | 280 | 1668 | 3172 |
 
-Seeds change values, timing, addresses and batch sizes. No connected scenario crosses split boundaries. Labels live in separate `.labels.json` files, never in transaction features. Target=1 denotes non-funding burst/peeling transactions. Model fitting and calibration select target=0 as a reference population; evaluation includes all 510 transactions. Scenario labels are used for reference selection and evaluation, not as features. This synthetic design is narrow and cannot establish real-world generalization.
+Seeds change values, timing, addresses and batch sizes. No connected scenario crosses split boundaries. Labels live in separate `.labels.json` files, never in transaction features. Target=1 denotes non-funding burst/peeling transactions. Model fitting and calibration select target=0 as a reference population; evaluation includes all 3,403 transactions. Scenario labels are used for reference selection and evaluation, not as features. This synthetic design is narrow and cannot establish real-world generalization.
+
+## Version 2 sample
+
+The bundled sample uses seed 8542 and 280 complete scenarios: 1,668 transactions and 3,011 observations. Training varies chain lengths, timing, amounts, reused addresses and legitimate lookalikes. `python pipeline/train.py` regenerates all splits and the sample together. `public/data/manifest.json` contains the displayed counts.

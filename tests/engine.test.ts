@@ -33,7 +33,7 @@ describe("imports and accounting", () => {
       [0, 1, 2].map(() => analyze(ds[0], model).alerts.map((a) => a.score)),
     );
     expect(ds[0].rejected).toBe(0);
-    expect(ds[0].transactions.length).toBe(170);
+    expect(ds[0].transactions.length).toBe(1668);
   });
   it("repeated observations do not inflate totals", async () => {
     const a = analyze(await ingest(json, "json"), model),
@@ -104,11 +104,11 @@ describe("imports and accounting", () => {
   });
   it("enforces byte and record limits", () => {
     expect(() => parseRows(" ".repeat(MAX_BYTES + 1), "json")).toThrow(
-      "50 MiB",
+      "100 MiB",
     );
     expect(() =>
       parseRows(JSON.stringify(Array(MAX_RECORDS + 1).fill({ a: 1 })), "json"),
-    ).toThrow("50,000");
+    ).toThrow("100,000");
   });
 });
 describe("real inference and chronological features", () => {
@@ -125,16 +125,16 @@ describe("real inference and chronological features", () => {
   });
   it("future transactions cannot change prior features", async () => {
     const d = await ingest(json, "json");
-    const full = features(d),
+    const full = features(d, model),
       cut = { ...d, transactions: d.transactions.slice(0, 60) };
-    for (const [id, v] of features(cut)) expect(v).toEqual(full.get(id));
+    for (const [id, v] of features(cut, model)) expect(v).toEqual(full.get(id));
   });
   it("equal timestamps are not counted as prior activity", async () => {
     const d = await ingest(json, "json");
     const a = structuredClone(d.transactions[0]),
       b = structuredClone(a);
     b.txid = "b".repeat(64);
-    const f = features({ ...d, transactions: [a, b] });
+    const f = features({ ...d, transactions: [a, b] }, model);
     expect(f.get(b.txid)![6]).toBe(0);
   });
   it("only links explicit references and computes bounded exposure", async () => {
@@ -235,11 +235,11 @@ describe("reference vectors and import boundary behaviour", () => {
       new URL("../pipeline/datasets/evaluation.json", import.meta.url),
       "utf8",
     );
-    const f = features(await ingest(text, "json"));
+    const f = features(await ingest(text, "json"), model);
     for (let i = 0; i < reference.ids.length; i++) {
       const actual = f.get(reference.ids[i])!;
-      expect(actual).toHaveLength(8);
-      for (let j = 0; j < 8; j++)
+      expect(actual).toHaveLength(17);
+      for (let j = 0; j < 17; j++)
         expect(Math.abs(actual[j] - reference.vectors[i][j])).toBeLessThan(
           1e-10,
         );

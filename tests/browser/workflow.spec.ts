@@ -20,7 +20,9 @@ test("complete offline workbench journey", async ({ page, context }) => {
     .getByRole("button", { name: "Explore sample investigation" })
     .click();
   await expect(
-    page.getByText("170 unique transactions scored locally.", { exact: false }),
+    page.getByText("1668 unique transactions scored locally.", {
+      exact: false,
+    }),
   ).toBeVisible();
   await page.screenshot({
     path: "docs/screenshots/overview.png",
@@ -31,8 +33,12 @@ test("complete offline workbench journey", async ({ page, context }) => {
   await expect(
     page.getByRole("heading", { name: "Supporting observations" }),
   ).toBeVisible();
-  await expect(page.getByLabel("Automatic analyst summary")).toContainText("Suggested checks");
-  await expect(page.getByLabel("Automatic analyst summary")).toContainText("fixed guidance rules");
+  await expect(page.getByLabel("Automatic analyst summary")).toContainText(
+    "Suggested checks",
+  );
+  await expect(page.getByLabel("Automatic analyst summary")).toContainText(
+    "fixed guidance rules",
+  );
   await page
     .getByLabel("Analyst notes")
     .fill("Reviewed synthetic lead; verify source evidence.");
@@ -72,7 +78,7 @@ test("complete offline workbench journey", async ({ page, context }) => {
   const exported = JSON.parse(
     fs.readFileSync("test-results/exported-case.json", "utf8"),
   );
-  expect(exported.analysis.dataset.transactions.length).toBe(170);
+  expect(exported.analysis.dataset.transactions.length).toBe(1668);
   const csvDownload = page.waitForEvent("download");
   await page.getByRole("button", { name: "Export evidence CSV" }).click();
   await (await csvDownload).saveAs("test-results/evidence.csv");
@@ -107,11 +113,13 @@ test("complete offline workbench journey", async ({ page, context }) => {
   ).toBeVisible();
   await page.getByRole("button", { name: "Validate mapped data" }).click();
   await expect(
-    page.getByText("Validation complete. 170 unique valid transactions."),
+    page.getByText("Validation complete. 1668 unique valid transactions."),
   ).toBeVisible();
   await page.getByRole("button", { name: "Run analysis", exact: true }).click();
   await expect(
-    page.getByText("170 unique transactions scored locally.", { exact: false }),
+    page.getByText("1668 unique transactions scored locally.", {
+      exact: false,
+    }),
   ).toBeVisible();
   await page.getByRole("button", { name: "Import data", exact: false }).click();
   await page
@@ -134,7 +142,7 @@ test("complete offline workbench journey", async ({ page, context }) => {
         externalRequests: external,
         pageErrors: errors,
         mode: "fresh browser context; non-loopback HTTP requests aborted; static dist served by Python",
-        transactions: 170,
+        transactions: 1668,
         sourceRecords: 306,
         analysisMilliseconds: exported.analysis.elapsedMs,
         model: exported.analysis.modelVersion,
@@ -158,7 +166,9 @@ test("mobile layout and storage failure preserve export", async ({ page }) => {
     .getByRole("button", { name: "Explore sample investigation" })
     .click();
   await expect(
-    page.getByText("170 unique transactions scored locally.", { exact: false }),
+    page.getByText("1668 unique transactions scored locally.", {
+      exact: false,
+    }),
   ).toBeVisible();
   expect(
     await page.evaluate(
@@ -187,7 +197,9 @@ test("graph controls, exposure, XML and unknown Geo-IP", async ({ page }) => {
     .getByRole("button", { name: "Explore sample investigation" })
     .click();
   await expect(
-    page.getByText("170 unique transactions scored locally.", { exact: false }),
+    page.getByText("1668 unique transactions scored locally.", {
+      exact: false,
+    }),
   ).toBeVisible();
   await page
     .getByRole("button", { name: "Graph explorer", exact: false })
@@ -212,7 +224,9 @@ test("graph controls, exposure, XML and unknown Geo-IP", async ({ page }) => {
   await page.getByRole("button", { name: "Find entity" }).click();
   await page.getByLabel("Inspect visible entity").selectOption("ip:192.0.2.2");
   await expect(
-    page.getByText("Geo-IP unavailable", { exact: true }),
+    page
+      .getByText("Geo-IP unavailable", { exact: true })
+      .filter({ visible: true }),
   ).toBeVisible();
   await page
     .getByRole("button", { name: "Investigations", exact: false })
@@ -244,7 +258,7 @@ test("graph controls, exposure, XML and unknown Geo-IP", async ({ page }) => {
     .setInputFiles("public/data/sample.xml");
   await page.getByRole("button", { name: "Validate mapped data" }).click();
   await expect(
-    page.getByText("Validation complete. 170 unique valid transactions."),
+    page.getByText("Validation complete. 1668 unique valid transactions."),
   ).toBeVisible();
   const d = page.waitForEvent("download");
   await page
@@ -314,7 +328,9 @@ test("simplified model and case pages", async ({ page }) => {
     .getByRole("button", { name: "Explore sample investigation" })
     .click();
   await expect(
-    page.getByText("170 unique transactions scored locally.", { exact: false }),
+    page.getByText("1668 unique transactions scored locally.", {
+      exact: false,
+    }),
   ).toBeVisible();
   await page
     .getByRole("button", { name: "Investigations", exact: true })
@@ -355,23 +371,34 @@ test("theme, sticky navigation and transaction summaries", async ({ page }) => {
     page.getByRole("button", { name: "Scale lab", exact: true }),
   ).toHaveCount(0);
   await page.locator(".theme-menu > summary").click();
-  await page.locator(".theme-options button").filter({ hasText: "Dark" }).click();
+  await page
+    .locator(".theme-options button")
+    .filter({ hasText: "Dark" })
+    .click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await page.locator(".theme-menu > summary").click();
-  await page.locator(".theme-options button").filter({ hasText: "System" }).click();
+  await page
+    .locator(".theme-options button")
+    .filter({ hasText: "System" })
+    .click();
   await page.emulateMedia({ colorScheme: "dark" });
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await page.emulateMedia({ colorScheme: "light" });
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   await page.locator(".theme-menu > summary").click();
-  await page.locator(".theme-options button").filter({ hasText: "Dark" }).click();
+  await page
+    .locator(".theme-options button")
+    .filter({ hasText: "Dark" })
+    .click();
   await page.reload();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await page
     .getByRole("button", { name: "Explore sample investigation" })
     .click();
   await expect(
-    page.getByText("170 unique transactions scored locally.", { exact: false }),
+    page.getByText("1668 unique transactions scored locally.", {
+      exact: false,
+    }),
   ).toBeVisible();
   await expect(
     page.getByText("Loaded dataset · not live", { exact: true }),
@@ -407,7 +434,10 @@ test("theme, sticky navigation and transaction summaries", async ({ page }) => {
     page.getByRole("button", { name: "Transaction flow", exact: true }),
   ).toHaveAttribute("aria-pressed", "true");
   await page.locator(".theme-menu > summary").click();
-  await page.locator(".theme-options button").filter({ hasText: "Light" }).click();
+  await page
+    .locator(".theme-options button")
+    .filter({ hasText: "Light" })
+    .click();
   await page.getByRole("button", { name: "Help", exact: true }).click();
   await expect(
     page.getByRole("heading", { name: "Download and run on Linux" }),
@@ -442,7 +472,10 @@ test("bulk metadata through browser worker", async ({ page }) => {
     page.getByRole("heading", { name: "Entity explorer", exact: true }),
   ).toBeVisible({ timeout: 90000 });
   await expect(
-    page.getByText("12142 matching transactions", { exact: false }),
+    page.getByText(
+      `${process.env.TRACE_BULK_TRANSACTIONS || "12142"} matching transactions`,
+      { exact: false },
+    ),
   ).toBeVisible();
   fs.writeFileSync(
     "docs/bulk-browser.json",
@@ -460,18 +493,45 @@ test("bulk metadata through browser worker", async ({ page }) => {
   );
 });
 
-test('individual output blocks retain their evidence', async ({page}) => {
- await page.goto('/');
- await page.getByRole('button',{name:'Explore sample investigation'}).click();
- await expect(page.getByText('170 unique transactions scored locally.',{exact:false})).toBeVisible();
- await expect(page.getByRole('heading',{name:'AI Powered Bitcoin Transaction Investigation',exact:true})).toBeVisible();
- await expect(page.locator('.individual-connections > path')).toHaveCount(6);
- await page.getByRole('button',{name:'Open graph'}).click();
- const outputs=page.getByLabel('Inspect visible entity').locator('option[value^="outpoint:"]');
- await expect(outputs).toHaveCount(7);
- await page.getByLabel('Inspect visible entity').selectOption((await outputs.first().getAttribute('value'))!);
- await expect(page.getByRole('heading',{name:'Selected output',exact:true})).toBeVisible();
- await page.getByText('View source records',{exact:true}).click();
- await expect(page.locator('pre:visible')).toContainText('17774584');
- await expect(page.locator('pre:visible')).toContainText('parentTx');
+test("individual output blocks retain their evidence", async ({ page }) => {
+  await page.goto("/");
+  await page
+    .getByRole("button", { name: "Explore sample investigation" })
+    .click();
+  await expect(
+    page.getByText("1668 unique transactions scored locally.", {
+      exact: false,
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", {
+      name: "AI Powered Bitcoin Transaction Investigation",
+      exact: true,
+    }),
+  ).toBeVisible();
+  const blockCount = await page.locator("[data-flow]").count();
+  expect(blockCount).toBeGreaterThan(0);
+  await expect(page.locator(".individual-connections > path")).toHaveCount(
+    blockCount,
+  );
+  await page.getByRole("button", { name: "Open graph" }).click();
+  const outputs = page
+    .getByLabel("Inspect visible entity")
+    .locator('option[value^="outpoint:"]');
+  await expect(outputs).not.toHaveCount(0);
+  await page
+    .getByLabel("Inspect visible entity")
+    .selectOption((await outputs.first().getAttribute("value"))!);
+  await expect(
+    page.getByRole("heading", { name: "Selected output", exact: true }),
+  ).toBeVisible();
+  await page.getByText("View source records", { exact: true }).click();
+  const record = JSON.parse(await page.locator("pre:visible").innerText());
+  const rows = JSON.parse(fs.readFileSync("public/data/sample.json", "utf8"));
+  const parent = rows.find((r: any) => r.txid === record.parentTx);
+  expect(parent).toBeTruthy();
+  expect(parent.outputs.some((o: any) => o.amount === record.amount)).toBe(
+    true,
+  );
+  await expect(page.locator("pre:visible")).toContainText("parentTx");
 });

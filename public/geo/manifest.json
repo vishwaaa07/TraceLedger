@@ -1,0 +1,27 @@
+{
+  "provider": "DB-IP Lite",
+  "release": "2026-09",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "attribution": "IP Geolocation by DB-IP",
+  "attribution_url": "https://db-ip.com",
+  "modifications": "Unmodified provider gzip CSV files. Locally indexed at runtime.",
+  "databases": [
+    {
+      "kind": "country",
+      "file": "dbip-country-lite-2026-09.csv.gz",
+      "url": "https://download.db-ip.com/free/dbip-country-lite-2026-09.csv.gz",
+      "ranges": 717170,
+      "sha256": "a32bb3c384bd3de60ad9024596aa5b395a6dd5beaa27a7223407cc2edc681d0b",
+      "bytes": 4522052
+    },
+    {
+      "kind": "asn",
+      "file": "dbip-asn-lite-2026-09.csv.gz",
+      "url": "https://download.db-ip.com/free/dbip-asn-lite-2026-09.csv.gz",
+      "ranges": 473272,
+      "sha256": "b1d32ccbd36cf01e011720a4b4b295bb24910a5806bc0de014e2bfe58d384464",
+      "bytes": 6955913
+    }
+  ]
+}

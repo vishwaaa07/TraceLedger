@@ -1,23 +1,28 @@
 # Bulk metadata verification
 
-CSV, JSON and XML imports accept up to **50 MiB and 50,000 source records per file**. Preview, validation and scoring run in the Web Worker. Validation reports completed row counts. Cancel/reset terminates the worker. These are bounded in-memory imports, not streaming or a promise of million-record browser capacity. Graph views stay bounded to 180 displayed blocks.
+CSV, JSON and XML accept up to **100 MiB and 100,000 source records per file** (previously 50 MiB / 50,000). Preview, validation, chronological graph representation and scoring run in a Web Worker. Cancel/reset terminates the worker. The importer remains bounded and in-memory, not streaming. Graphs render at most 180 blocks.
 
-Measured fixture: seed 884, 2,500 complete scenarios, 23,227 source records, 12,142 unique transactions, 22,117 network observations, zero rejected rows. Equivalent CSV/JSON/XML imports produced identical transaction scores.
+Version 2 uses an observation index rather than scanning every observation for each transaction. This removes the previous transaction × observation scan during analysis. The larger model has 128 trees.
 
-| Format | File bytes | Parse + validation + analysis |
-|---|---:|---:|
-| JSON | 28,439,357 | 5.96 seconds |
-| CSV | 22,594,370 | 7.60 seconds |
-| XML | 33,974,756 | 8.36 seconds |
+Fixture: seed 9884, 5,000 independent scenarios, **58,555 source records, 30,653 transactions, 55,747 observations**, zero rejected rows. All three formats produced identical transaction scores. These files exceed both previous limits; the new maximum is a guardrail, not a universal capacity guarantee.
 
-One sequential run per format on Windows / Ryzen 5 PRO 8540U / Node 24.19.0. Post-run heap snapshots ranged from 217 to 409 MB; they are not peak-memory measurements. See bulk-benchmark.json. A separate Chrome 153 browser run uploaded, previewed, validated, scored and rendered the JSON fixture in 10.21 seconds (bulk-browser.json). Results vary by computer and data shape. Low-memory browsers can still fail below the hard limits.
+| Format | Bytes | Parse + validation + analysis | Post-run heap |
+|---|---:|---:|---:|
+| JSON | 71,115,668 | 4.05 s | 496.9 MB |
+| CSV | 56,361,769 | 5.31 s | 778.3 MB |
+| XML | 85,069,367 | 11.47 s | 696.3 MB |
 
-Regenerate and benchmark from the project root (Python and installed development dependencies required):
+Single sequential run per format, Node v24.19.0 on Windows / Ryzen 5 PRO 8540U. Memory is a post-run snapshot, not peak, and includes runtime/GC effects. Node timings exclude browser transfer and rendering. A separate Chrome 153.0.8010.53 workflow uploaded, previewed, validated, scored and rendered the 71,115,668-byte JSON fixture in **14.71 seconds**. See the two JSON reports beside this document.
+
+Low-memory browsers may fail below the limit. The full 100,000-record ceiling is not claimed as benchmarked. Geo-IP runs in a separate worker and loading its tables consumes additional memory; clear it before processing a large case on a constrained computer. Case exports can exceed their source-file size and have a separate 100 MiB re-import limit.
+
+Regenerate and verify (Linux, with dependencies installed):
 
 ```sh
-python3 pipeline/generate.py --seed 884 --scenarios 2500 --output work/bulk-review
-node scripts/bulk-benchmark.mjs work/bulk-review
-TRACE_BULK_FILE="$PWD/work/bulk-review.json" npm run test:e2e
+python3 pipeline/generate.py --seed 9884 --scenarios 5000 --output generated/bulk-v2
+node scripts/bulk-benchmark.mjs generated/bulk-v2
+# In another terminal: python3 serve.py
+TRACE_BULK_FILE="$PWD/generated/bulk-v2.json" TRACE_BULK_TRANSACTIONS=30653 npm run test:e2e
 ```
 
-Start `python3 serve.py` in another terminal before browser tests. On Windows use `python` and set `$env:TRACE_BULK_FILE` in PowerShell. The generated benchmark files are not needed to run the application.
+On PowerShell use `$env:TRACE_BULK_FILE` and `$env:TRACE_BULK_TRANSACTIONS`. The fixture is generated locally and excluded from Git. Native Linux memory/performance and hosted-build end-to-end testing remain outstanding.
